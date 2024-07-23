@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "501552850338",
+    "project_id": "anyway-pickeat",
+    "storage_bucket": "anyway-pickeat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501552850338:android:8b82aa53760358e2a6fefb",
+        "android_client_info": {
+          "package_name": "com.anyway.pickeat.pickeat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501552850338-auu1s9t6ru1350f39kl98olk8o7lb5j1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anyway.pickeat",
+            "certificate_hash": "aacaf3338107759b486b3e419cd8dab2b4e2fa34"
+          }
+        },
+        {
+          "client_id": "501552850338-bf0jl8bfgbpi54oq604isf8erpfff93n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYHhaAqrcQvfBIF4NPiNy27pV1zWqKTvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501552850338-bf0jl8bfgbpi54oq604isf8erpfff93n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "501552850338-b3s1c2htju2tnbl7h4qlkd5je1pefho4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anyway.pickeat.pickeat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
