@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Text(
-                "오늘의 메뉴를 만나러 가볼까요?",
+                "쇼츠와 함께하는 오늘의 메뉴",
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15,
