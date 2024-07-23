@@ -57,6 +57,7 @@ class PickeatApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Pickeat',
       theme: ThemeData(
+        fontFamily: 'Pretendard',
         colorScheme: ColorScheme.fromSeed(seedColor: picketColor),
         useMaterial3: true,
       ),

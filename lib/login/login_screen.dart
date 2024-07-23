@@ -57,10 +57,15 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                "assets/main-logo.png",
-                fit: BoxFit.contain,
-                height: 100,
+              GestureDetector(
+                onTap: (){
+                  context.go("/");
+                },
+                child: Image.asset(
+                  "assets/image/main-logo.png",
+                  fit: BoxFit.contain,
+                  height: 100,
+                ),
               ),
               Text(
                 "Pickeat",
@@ -179,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/google_logo.png",
+                      "assets/image/google_logo.png",
                       fit: BoxFit.contain,
                       height: 20,
                     ),
