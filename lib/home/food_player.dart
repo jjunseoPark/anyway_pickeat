@@ -55,7 +55,7 @@ class _FoodPlayerState extends State<FoodPlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white10,
+        color: Colors.black,
         child: PageView.builder(
           scrollDirection: Axis.vertical,
           controller: pageViewController,
