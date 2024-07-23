@@ -49,28 +49,42 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: picketColor,
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(48.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                "assets/main-logo.png",
-                fit: BoxFit.contain,
-                height: 100,
+              GestureDetector(
+                onTap: (){
+                  context.go("/");
+                },
+                child: Image.asset(
+                  "assets/image/login.png",
+                  fit: BoxFit.contain,
+                  height: 200,
+                ),
               ),
               Text(
-                "Pickeat",
+                "Log In",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                   fontSize: 42,
                 ),
               ),
+              Text(
+                "오늘의 메뉴를 만나러 가볼까요?",
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 15,
+                  color: Colors.black.withOpacity(0.6),
+                ),
+              ),
               SizedBox(
-                height: 64,
+                height: 10,
               ),
               Form(
                 key: _formKey,
@@ -79,10 +93,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: emailTextController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "이메일",
+                        suffixIcon: Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        labelText: "Email",
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -179,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/google_logo.png",
+                      "assets/image/google_logo.png",
                       fit: BoxFit.contain,
                       height: 20,
                     ),
