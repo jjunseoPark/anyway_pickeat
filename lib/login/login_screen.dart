@@ -93,7 +93,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: emailTextController,
                       decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.email),
+                        suffixIcon: Icon(
+                          Icons.email,
+                          color: Colors.grey,
+                          ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
@@ -110,15 +113,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     SizedBox(
-                      height: 24,
+                      height: 15,
                     ),
                     TextFormField(
                       controller: pwdTextController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "패스워드",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        suffixIcon: Icon(Icons.lock,
+                        color: Colors.grey,),
+                        labelText: "Password",
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                       ),
                       obscureText: true,
                       keyboardType: TextInputType.visiblePassword,
@@ -132,9 +140,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 64,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text("계정이 없나요?",
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontSize: 12,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => context.push("/sign_up"),
+                    child: Text(
+                      "회원가입",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              Expanded(child: Container()),
               MaterialButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -159,55 +187,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 height: 48,
                 minWidth: double.infinity,
-                color: Colors.white,
-                child: Text(
-                  "로그인",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
+                color: picketColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-              TextButton(
-                onPressed: () => context.push("/sign_up"),
-                child: Text(
-                  "계정이 없나요? 회원가입",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Divider(),
-              MaterialButton(
-                color: Colors.white,
-                onPressed: () async {
-                  final userCredit = await signInWithGoogle();
-
-                  if (userCredit == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("구글 로그인 실패"),
-                    ));
-                    return;
-                  }
-                  if (context.mounted) {
-                    context.go("/");
-                  }  
-                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      "assets/image/google_logo.png",
-                      fit: BoxFit.contain,
-                      height: 20,
+                    Text(
+                      "Next",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("구글로 로그인하기"),
+                    SizedBox(width: 10,),
+                    Icon(Icons.arrow_forward_ios_rounded,
+                    color: Colors.white,
+                    size: 18,)
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
