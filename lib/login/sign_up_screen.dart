@@ -192,7 +192,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: '개인정보 처리 방침',
+                                      text: '개인정보 방침',
                                       style: TextStyle(
                                         color: picketColor,
                                         fontWeight: FontWeight.w600,
