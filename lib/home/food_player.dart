@@ -74,27 +74,27 @@ class _FoodPlayerState extends State<FoodPlayer> {
           itemBuilder: (context, index) {
             return Stack(
               children: [
-                // Container(
-                //   color: Colors.white,
-                //   child: Center(
-                //     child: chewieController != null &&
-                //         chewieController!
-                //             .videoPlayerController.value.isInitialized
-                //         ? Chewie(
-                //       controller: chewieController!,
-                //     )
-                //         : const Column(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         CircularProgressIndicator(),
-                //         SizedBox(
-                //           height: 20,
-                //         ),
-                //         Text("loading"),
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                Container(
+                  color: Colors.white,
+                  child: Center(
+                    child: chewieController != null &&
+                        chewieController!
+                            .videoPlayerController.value.isInitialized
+                        ? Chewie(
+                      controller: chewieController!,
+                    )
+                        : const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text("loading"),
+                      ],
+                    ),
+                  ),
+                ),
 
                 FoodInformation(),
               ],
