@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
                         ),
-                        labelText: "Email",
+                        labelText: "이메일",
                         filled: true,
                         fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                       ),
@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         suffixIcon: Icon(Icons.lock,
                         color: Colors.grey,),
-                        labelText: "Password",
+                        labelText: "비밀번호",
                         filled: true,
                         fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                       ),
@@ -140,73 +140,77 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              Expanded(child: Container()),
+              Column(
                 children: [
-                  Text("계정이 없나요?",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    fontSize: 12,
+                  MaterialButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+
+                        final result = await signIn(emailTextController.text.trim(),
+                            pwdTextController.text.trim());
+
+                        if (result == null) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("로그인 실패"),
+                            ));
+                          }
+                          return;
+                        }
+
+                        if (context.mounted) {
+                          context.go("/");
+                        }
+                      }
+                    },
+                    height: 48,
+                    minWidth: double.infinity,
+                    color: picketColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Next",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Icon(Icons.arrow_forward_ios_rounded,
+                        color: Colors.white,
+                        size: 18,)
+                      ],
                     ),
                   ),
-                  TextButton(
-                    onPressed: () => context.push("/sign_up"),
-                    child: Text(
-                      "회원가입",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("계정이 없나요?",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
                       ),
-                    ),
+                      TextButton(
+                        onPressed: () => context.push("/sign_up"),
+                        child: Text(
+                          "회원가입",
+                          style: TextStyle(
+                            color: picketColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-              Expanded(child: Container()),
-              MaterialButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-
-                    final result = await signIn(emailTextController.text.trim(),
-                        pwdTextController.text.trim());
-
-                    if (result == null) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("로그인 실패"),
-                        ));
-                      }
-                      return;
-                    }
-
-                    if (context.mounted) {
-                      context.go("/");
-                    }
-                  }
-                },
-                height: 48,
-                minWidth: double.infinity,
-                color: picketColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Next",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(width: 10,),
-                    Icon(Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
-                    size: 18,)
-                  ],
-                ),
               ),
             ],
           ),

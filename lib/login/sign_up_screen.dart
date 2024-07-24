@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pickeat/const/color.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart'; // 이 줄을 추가하세요.
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,12 +19,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController pwdTextController = TextEditingController();
   TextEditingController nicknameTextController = TextEditingController();
+  bool _agreeToTerms = false; // 체크박스 상태를 저장하는 변수
 
   Future<bool> signUp(String emailAddress, String password) async {
     try {
       final credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-          email: emailAddress, password: password);
+          .createUserWithEmailAndPassword(email: emailAddress, password: password);
       await FirebaseFirestore.instance.collection("users").add({
         "uid": credential.user?.uid ?? "",
         "email": credential.user?.email ?? "",
@@ -36,6 +39,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return false;
     } catch (e) {
       return false;
+    }
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
     }
   }
 
@@ -83,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide.none,
                               ),
-                              labelText: "Email",
+                              labelText: "이메일",
                               filled: true,
                               fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                             ),
@@ -108,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 Icons.lock,
                                 color: Colors.grey,
                               ),
-                              labelText: "Password",
+                              labelText: "비밀번호",
                               filled: true,
                               fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                             ),
@@ -135,7 +146,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide.none,
                               ),
-                              labelText: "Nickname",
+                              labelText: "닉네임",
                               filled: true,
                               fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                             ),
@@ -145,6 +156,65 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               }
                               return null;
                             },
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Checkbox(
+                                value: _agreeToTerms,
+                                onChanged: (bool? newValue) {
+                                  setState(() {
+                                    _agreeToTerms = newValue!;
+                                  });
+                                },
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: '이용약관',
+                                      style: TextStyle(
+                                        color: picketColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          _launchURL("https://solv-it.notion.site/f21a9dfac56a4688bf6f03c86fffdf60?pvs=4"); // 이용약관 URL로 변경
+                                        },
+                                    ),
+                                    TextSpan(
+                                      text: ' 및 ',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '개인정보 처리 방침',
+                                      style: TextStyle(
+                                        color: picketColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          _launchURL("https://solv-it.notion.site/f21a9dfac56a4688bf6f03c86fffdf60?pvs=4"); // 개인정보 처리 방침 URL로 변경
+                                        },
+                                    ),
+                                    TextSpan(
+                                      text: '에 동의합니다.',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: 100, // Add some space at the bottom to prevent overflow
@@ -157,58 +227,80 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: MaterialButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MaterialButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate() && _agreeToTerms) {
+                          _formKey.currentState!.save();
 
-                      final result = await signUp(
-                        emailTextController.text.trim(),
-                        pwdTextController.text.trim(),
-                      );
+                          final result = await signUp(
+                            emailTextController.text.trim(),
+                            pwdTextController.text.trim(),
+                          );
 
-                      if (result) {
-                        if (context.mounted) {
+                          if (result) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("회원가입 성공")),
+                              );
+                              context.go("/login");
+                            }
+                          } else {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("회원가입 실패")),
+                              );
+                            }
+                          }
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("회원가입 성공")),
-                          );
-                          context.go("/login");
-                        }
-                      } else {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("회원가입 실패")),
+                            SnackBar(content: Text("약관에 동의해야 합니다.")),
                           );
                         }
-                      }
-                    }
-                  },
-                  height: 48,
-                  minWidth: double.infinity,
-                  color: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Start",
+                      },
+                      height: 48,
+                      minWidth: double.infinity,
+                      color: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "시작하기",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.go("/login"); // 로그인 화면으로 이동
+                      },
+                      child: Text(
+                        "이미 계정이 있으신가요?",
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                          color: Colors.grey,
+                          fontSize: 13,
                         ),
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -218,3 +310,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+
