@@ -136,7 +136,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                         return null;
                       },
-                    )
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("or",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => context.push("/sign_up"),
+                          child: Text(
+                            "구글로 로그인하기",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
