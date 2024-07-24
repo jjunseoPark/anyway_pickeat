@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                   if (context.mounted) {
                     context.go("/");
-                  }  
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
