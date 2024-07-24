@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Image.asset(
                   "assets/image/login.png",
                   fit: BoxFit.contain,
-                  height: 200,
+                  width: 1000,
                 ),
               ),
               Text(
@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Text(
-                "오늘의 메뉴를 만나러 가볼까요?",
+                "쇼츠와 함께하는 오늘의 메뉴",
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontSize: 15,
@@ -93,12 +93,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: emailTextController,
                       decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.email),
+                        suffixIcon: Icon(
+                          Icons.email,
+                          color: Colors.grey,
+                          ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
                         ),
-                        labelText: "Email",
+                        labelText: "이메일",
                         filled: true,
                         fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                       ),
@@ -110,15 +113,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     SizedBox(
-                      height: 24,
+                      height: 15,
                     ),
                     TextFormField(
                       controller: pwdTextController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "패스워드",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        suffixIcon: Icon(Icons.lock,
+                        color: Colors.grey,),
+                        labelText: "비밀번호",
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Color.fromRGBO(155, 155, 155, 0.2),
                       ),
                       obscureText: true,
                       keyboardType: TextInputType.visiblePassword,
@@ -128,86 +136,105 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                         return null;
                       },
-                    )
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("or",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => context.push("/sign_up"),
+                          child: Text(
+                            "구글로 로그인하기",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 64,
-              ),
-              MaterialButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+              Expanded(child: Container()),
+              Column(
+                children: [
+                  MaterialButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
 
-                    final result = await signIn(emailTextController.text.trim(),
-                        pwdTextController.text.trim());
+                        final result = await signIn(emailTextController.text.trim(),
+                            pwdTextController.text.trim());
 
-                    if (result == null) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("로그인 실패"),
-                        ));
+                        if (result == null) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("로그인 실패"),
+                            ));
+                          }
+                          return;
+                        }
+
+                        if (context.mounted) {
+                          context.go("/");
+                        }
                       }
-                      return;
-                    }
-
-                    if (context.mounted) {
-                      context.go("/");
-                    }
-                  }
-                },
-                height: 48,
-                minWidth: double.infinity,
-                color: Colors.white,
-                child: Text(
-                  "로그인",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () => context.push("/sign_up"),
-                child: Text(
-                  "계정이 없나요? 회원가입",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Divider(),
-              MaterialButton(
-                color: Colors.white,
-                onPressed: () async {
-                  final userCredit = await signInWithGoogle();
-
-                  if (userCredit == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("구글 로그인 실패"),
-                    ));
-                    return;
-                  }
-                  if (context.mounted) {
-                    context.go("/");
-                  }  
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/image/google_logo.png",
-                      fit: BoxFit.contain,
-                      height: 20,
+                    },
+                    height: 48,
+                    minWidth: double.infinity,
+                    color: picketColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    SizedBox(
-                      width: 10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Next",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Icon(Icons.arrow_forward_ios_rounded,
+                        color: Colors.white,
+                        size: 18,)
+                      ],
                     ),
-                    Text("구글로 로그인하기"),
-                  ],
-                ),
-              )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("계정이 없나요?",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => context.push("/sign_up"),
+                        child: Text(
+                          "회원가입",
+                          style: TextStyle(
+                            color: picketColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),

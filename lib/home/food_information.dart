@@ -41,7 +41,7 @@ class _FoodInformationState extends State<FoodInformation> {
 
             //빈공간
             Expanded(
-              child: Placeholder(),
+              child: Container(),
             ),
 
             // 설명창
