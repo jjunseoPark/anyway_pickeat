@@ -144,7 +144,7 @@ class _FoodInformationState extends State<FoodInformation> {
               Text(
                 '지도 보러가기',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 23,
                   fontWeight: FontWeight.w600,
                 ),
               ),
