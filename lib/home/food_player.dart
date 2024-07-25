@@ -1,4 +1,5 @@
 import 'package:chewie/chewie.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,13 +18,12 @@ class FoodPlayer extends StatefulWidget {
 class _FoodPlayerState extends State<FoodPlayer> {
   int currentPage = 0;
   final PageController pageViewController =
-      PageController(initialPage: 0, viewportFraction: 1.0);
+  PageController(initialPage: 0, viewportFraction: 1.0);
 
   late VideoPlayerController videoController;
   ChewieController? chewieController;
 
   final storageRef = FirebaseStorage.instance.ref();
-
 
   @override
   void initState() {
@@ -38,10 +38,11 @@ class _FoodPlayerState extends State<FoodPlayer> {
     super.dispose();
   }
 
+  //영상 재생에 필요한 함수
   Future<void> initializePlyaer() async {
 
     final pathReference = await storageRef.child("menu_video/021.mp4").getDownloadURL();
-    
+
     videoController = VideoPlayerController.networkUrl(Uri.parse(pathReference));
     await Future.wait([videoController.initialize()]);
     createChewieController();
@@ -57,6 +58,8 @@ class _FoodPlayerState extends State<FoodPlayer> {
       aspectRatio: MediaQuery.of(context).size.aspectRatio,
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {

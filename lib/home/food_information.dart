@@ -11,6 +11,14 @@ class FoodInformation extends StatefulWidget {
 }
 
 class _FoodInformationState extends State<FoodInformation> {
+  bool _isFavorited = false;
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorited = !_isFavorited;
+    });
+  }
+
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -41,7 +49,8 @@ class _FoodInformationState extends State<FoodInformation> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xffD9D9D9),),
+                  color: Color(0xffD9D9D9),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(
@@ -50,52 +59,64 @@ class _FoodInformationState extends State<FoodInformation> {
                       Column(
                         children: [
                           IconButton(
-                            icon: Image.asset("assets/image/baemin_logo.png",
+                            icon: Image.asset(
+                              "assets/image/baemin_logo.png",
                               width: 70,
-                              fit: BoxFit.fill,),
+                              fit: BoxFit.fill,
+                            ),
                             onPressed: () {
                               _launchURL('https://www.baemin.com');
                             },
                           ),
-                          Text("배달의 민족",
+                          Text(
+                            "배달의 민족",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
-                            ),),
+                            ),
+                          ),
                         ],
                       ),
                       Column(
                         children: [
                           IconButton(
-                            icon: Image.asset("assets/image/yogiyo_logo.png",
+                            icon: Image.asset(
+                              "assets/image/yogiyo_logo.png",
                               width: 70,
-                              fit: BoxFit.fill,),
+                              fit: BoxFit.fill,
+                            ),
                             onPressed: () {
                               _launchURL('https://www.yogiyo.co.kr');
                             },
                           ),
-                          Text("요기요",
+                          Text(
+                            "요기요",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
-                            ),),
+                            ),
+                          ),
                         ],
                       ),
                       Column(
                         children: [
                           IconButton(
-                            icon: Image.asset("assets/image/coupang_logo.png",
+                            icon: Image.asset(
+                              "assets/image/coupang_logo.png",
                               width: 70,
-                              fit: BoxFit.fill,),
+                              fit: BoxFit.fill,
+                            ),
                             onPressed: () {
                               _launchURL('https://www.coupang.com');
                             },
                           ),
-                          Text("쿠팡 이츠",
+                          Text(
+                            "쿠팡 이츠",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
-                            ),),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -127,11 +148,12 @@ class _FoodInformationState extends State<FoodInformation> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xffD9D9D9),),
+                  color: Color(0xffD9D9D9),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(
@@ -140,35 +162,43 @@ class _FoodInformationState extends State<FoodInformation> {
                       Column(
                         children: [
                           IconButton(
-                            icon: Image.asset("assets/image/Naver_logo.png",
+                            icon: Image.asset(
+                              "assets/image/Naver_logo.png",
                               width: 70,
-                              fit: BoxFit.fill,),
+                              fit: BoxFit.fill,
+                            ),
                             onPressed: () {
                               _launchURL('https://map.naver.com');
                             },
                           ),
-                          Text("네이버지도",
+                          Text(
+                            "네이버지도",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
-                            ),),
+                            ),
+                          ),
                         ],
                       ),
                       Column(
                         children: [
                           IconButton(
-                            icon: Image.asset("assets/image/Kakao_logo.png",
+                            icon: Image.asset(
+                              "assets/image/Kakao_logo.png",
                               width: 70,
-                              fit: BoxFit.fill,),
+                              fit: BoxFit.fill,
+                            ),
                             onPressed: () {
                               _launchURL('https://map.kakao.com');
                             },
                           ),
-                          Text("카카오지도",
+                          Text(
+                            "카카오지도",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
-                            ),),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -225,11 +255,59 @@ class _FoodInformationState extends State<FoodInformation> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButton(
+                        icon: Icon(
+                          _isFavorited ? Icons.favorite : Icons.favorite_border,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                        onPressed: _toggleFavorite,
+                        visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(
+                          minHeight: 0,
+                          minWidth: 0,
+                        ),
+                      ),
+                      Text(
+                        '좋아요',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      IconButton(
+                        icon: Icon(
+                          Icons.send,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          _launchURL('https://map.kakao.com');
+                        },
+                        visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(
+                          minHeight: 0,
+                          minWidth: 0,
+                        ),
+                      ),
+                      Text(
+                        '공유',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      IconButton(
                         icon: Transform(
                           alignment: Alignment.center,
                           transform: Matrix4.rotationY(math.pi),
                           child: Icon(
-                            Icons.messenger,
+                            Icons.message,
                             size: 30,
                             color: Colors.white,
                           ),
@@ -244,10 +322,11 @@ class _FoodInformationState extends State<FoodInformation> {
                           minWidth: 0,
                         ),
                       ),
-                      Text('리뷰',
+                      Text(
+                        '리뷰',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -262,7 +341,7 @@ class _FoodInformationState extends State<FoodInformation> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   //가게정보
-                  SizedBox(height: 30,),
+                  SizedBox(height: 30),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -486,4 +565,3 @@ class _FoodInformationState extends State<FoodInformation> {
     );
   }
 }
-
