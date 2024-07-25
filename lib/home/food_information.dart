@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../const/color.dart';
+import 'dart:math' as math;
 
 class FoodInformation extends StatefulWidget {
   const FoodInformation({super.key});
@@ -215,13 +216,53 @@ class _FoodInformationState extends State<FoodInformation> {
             Expanded(
               child: Container(),
             ),
-
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  transform: Matrix4.translationValues(20, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.rotationY(math.pi),
+                          child: Icon(
+                            Icons.messenger,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          _launchURL('https://map.kakao.com');
+                        },
+                        visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(
+                          minHeight: 0,
+                          minWidth: 0,
+                        ),
+                      ),
+                      Text('리뷰',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
             // 설명창
             Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   //가게정보
+                  SizedBox(height: 30,),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -276,25 +317,6 @@ class _FoodInformationState extends State<FoodInformation> {
                     ),
                     child: Row(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: picketColor,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              '리뷰',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -413,7 +435,7 @@ class _FoodInformationState extends State<FoodInformation> {
                   )
                 ],
               ),
-              height: 90,
+              height: 130,
             ),
 
             // 두 개의 버튼
