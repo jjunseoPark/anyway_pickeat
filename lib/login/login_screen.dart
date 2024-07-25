@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   context.go("/");
                 },
                 child: Image.asset(
@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         suffixIcon: Icon(
                           Icons.email,
                           color: Colors.grey,
-                          ),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
@@ -122,8 +122,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none,
                         ),
-                        suffixIcon: Icon(Icons.lock,
-                        color: Colors.grey,),
+                        suffixIcon: Icon(
+                          Icons.lock,
+                          color: Colors.grey,
+                        ),
                         labelText: "비밀번호",
                         filled: true,
                         fillColor: Color.fromRGBO(155, 155, 155, 0.2),
@@ -140,14 +142,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("or",
+                        Text(
+                          "or",
                           textAlign: TextAlign.end,
                           style: TextStyle(
                             fontSize: 15,
                           ),
                         ),
                         TextButton(
-                          onPressed: () => context.push("/sign_up"),
+                          onPressed: () async {
+                            final userCredit = await signInWithGoogle();
+
+                            if (userCredit == null) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text("구글 로그인 실패"),
+                              ));
+                              return;
+                            }
+
+                            if (context.mounted) {
+                              context.go("/");
+                            }
+
+                          },
                           child: Text(
                             "구글로 로그인하기",
                             textAlign: TextAlign.end,
@@ -171,7 +189,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
 
-                        final result = await signIn(emailTextController.text.trim(),
+                        final result = await signIn(
+                            emailTextController.text.trim(),
                             pwdTextController.text.trim());
 
                         if (result == null) {
@@ -204,17 +223,22 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 18,
                           ),
                         ),
-                        SizedBox(width: 10,),
-                        Icon(Icons.arrow_forward_ios_rounded,
-                        color: Colors.white,
-                        size: 18,)
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.white,
+                          size: 18,
+                        )
                       ],
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("계정이 없나요?",
+                      Text(
+                        "계정이 없나요?",
                         textAlign: TextAlign.end,
                         style: TextStyle(
                           fontSize: 13,

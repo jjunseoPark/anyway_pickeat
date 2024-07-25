@@ -1,4 +1,5 @@
 import 'package:chewie/chewie.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pickeat/const/color.dart';
@@ -21,6 +22,9 @@ class _FoodPlayerState extends State<FoodPlayer> {
   late VideoPlayerController videoController;
   ChewieController? chewieController;
 
+  final storageRef = FirebaseStorage.instance.ref();
+
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +39,10 @@ class _FoodPlayerState extends State<FoodPlayer> {
   }
 
   Future<void> initializePlyaer() async {
-    videoController = VideoPlayerController.asset("assets/011.mp4");
+
+    final pathReference = await storageRef.child("menu_video/021.mp4").getDownloadURL();
+    
+    videoController = VideoPlayerController.networkUrl(Uri.parse(pathReference));
     await Future.wait([videoController.initialize()]);
     createChewieController();
     setState(() {});
