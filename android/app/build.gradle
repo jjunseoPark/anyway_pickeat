@@ -31,6 +31,11 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    dependencies {
+        implementation 'com.google.android.gms:play-services-base:17.6.0'
+        implementation 'com.google.android.gms:play-services-basement:17.6.0'
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -59,3 +64,4 @@ android {
 flutter {
     source = "../.."
 }
+
