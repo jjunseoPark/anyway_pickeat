@@ -946,6 +946,12 @@ PODS:
     - abseil/meta/type_traits
     - abseil/xcprivacy
   - abseil/xcprivacy (1.20240116.2)
+  - Amplitude (8.18.0):
+    - AnalyticsConnector (~> 1.0.0)
+  - amplitude_flutter (0.0.1):
+    - Amplitude (= 8.18.0)
+    - Flutter
+  - AnalyticsConnector (1.0.3)
   - AppAuth (1.7.5):
     - AppAuth/Core (= 1.7.5)
     - AppAuth/ExternalUserAgent (= 1.7.5)
@@ -1197,6 +1203,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - amplitude_flutter (from `.symlinks/plugins/amplitude_flutter/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -1214,6 +1221,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - Amplitude
+    - AnalyticsConnector
     - AppAuth
     - BoringSSL-GRPC
     - Firebase
@@ -1243,6 +1252,8 @@ SPEC REPOS:
     - SDWebImageWebPCoder
 
 EXTERNAL SOURCES:
+  amplitude_flutter:
+    :path: ".symlinks/plugins/amplitude_flutter/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   firebase_auth:
@@ -1272,6 +1283,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
+  Amplitude: 184def4f87aa26f94a93a7faa334e06b1cae704d
+  amplitude_flutter: 0f617f89d62b10c40a0ab14849e660a7c12e4e46
+  AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
   cloud_firestore: 71f0ffec97ce23c51587ec906f4cc470c518bc70

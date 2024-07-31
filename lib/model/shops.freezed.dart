@@ -25,8 +25,8 @@ mixin _$Shop {
   int? get menu_price => throw _privateConstructorUsedError;
   String? get store_name => throw _privateConstructorUsedError;
   String? get store_address => throw _privateConstructorUsedError;
-  int? get store_rating_kakao => throw _privateConstructorUsedError;
-  int? get store_rating_naver => throw _privateConstructorUsedError;
+  double? get store_rating_kakao => throw _privateConstructorUsedError;
+  double? get store_rating_naver => throw _privateConstructorUsedError;
   String? get yogiyo_url => throw _privateConstructorUsedError;
   String? get coupang_url => throw _privateConstructorUsedError;
   String? get baemin_url => throw _privateConstructorUsedError;
@@ -52,8 +52,8 @@ abstract class $ShopCopyWith<$Res> {
       int? menu_price,
       String? store_name,
       String? store_address,
-      int? store_rating_kakao,
-      int? store_rating_naver,
+      double? store_rating_kakao,
+      double? store_rating_naver,
       String? yogiyo_url,
       String? coupang_url,
       String? baemin_url,
@@ -117,11 +117,11 @@ class _$ShopCopyWithImpl<$Res, $Val extends Shop>
       store_rating_kakao: freezed == store_rating_kakao
           ? _value.store_rating_kakao
           : store_rating_kakao // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       store_rating_naver: freezed == store_rating_naver
           ? _value.store_rating_naver
           : store_rating_naver // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       yogiyo_url: freezed == yogiyo_url
           ? _value.yogiyo_url
           : yogiyo_url // ignore: cast_nullable_to_non_nullable
@@ -171,8 +171,8 @@ abstract class _$$ShopImplCopyWith<$Res> implements $ShopCopyWith<$Res> {
       int? menu_price,
       String? store_name,
       String? store_address,
-      int? store_rating_kakao,
-      int? store_rating_naver,
+      double? store_rating_kakao,
+      double? store_rating_naver,
       String? yogiyo_url,
       String? coupang_url,
       String? baemin_url,
@@ -233,11 +233,11 @@ class __$$ShopImplCopyWithImpl<$Res>
       store_rating_kakao: freezed == store_rating_kakao
           ? _value.store_rating_kakao
           : store_rating_kakao // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       store_rating_naver: freezed == store_rating_naver
           ? _value.store_rating_naver
           : store_rating_naver // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       yogiyo_url: freezed == yogiyo_url
           ? _value.yogiyo_url
           : yogiyo_url // ignore: cast_nullable_to_non_nullable
@@ -308,9 +308,9 @@ class _$ShopImpl implements _Shop {
   @override
   final String? store_address;
   @override
-  final int? store_rating_kakao;
+  final double? store_rating_kakao;
   @override
-  final int? store_rating_naver;
+  final double? store_rating_naver;
   @override
   final String? yogiyo_url;
   @override
@@ -410,8 +410,8 @@ abstract class _Shop implements Shop {
       final int? menu_price,
       final String? store_name,
       final String? store_address,
-      final int? store_rating_kakao,
-      final int? store_rating_naver,
+      final double? store_rating_kakao,
+      final double? store_rating_naver,
       final String? yogiyo_url,
       final String? coupang_url,
       final String? baemin_url,
@@ -434,9 +434,9 @@ abstract class _Shop implements Shop {
   @override
   String? get store_address;
   @override
-  int? get store_rating_kakao;
+  double? get store_rating_kakao;
   @override
-  int? get store_rating_naver;
+  double? get store_rating_naver;
   @override
   String? get yogiyo_url;
   @override

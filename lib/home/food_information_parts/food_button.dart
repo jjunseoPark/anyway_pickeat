@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pickeat/const/url_button.dart';
+import 'package:pickeat/model/shops.dart';
+
 import '../../const/color.dart';
+import '../../const/launch_url.dart';
 
 class FoodButton extends StatefulWidget {
-  const FoodButton({super.key});
+
+  Shop shop;
+
+  FoodButton({required this.shop,super.key});
 
   @override
   State<FoodButton> createState() => _FoodButtonState();
@@ -11,14 +17,7 @@ class FoodButton extends StatefulWidget {
 
 class _FoodButtonState extends State<FoodButton> {
 
-  void _launchURL(String url) async {
-    final urlToUri = Uri.parse(url);
-    if (await canLaunchUrl(urlToUri)) {
-      launchUrl(urlToUri);
-    } else {
-      print("fail load url");
-    }
-  }
+
 
   void _showDeliveryBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -42,63 +41,18 @@ class _FoodButtonState extends State<FoodButton> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xffD9D9D9),),
+                  color: Color(0xfff6f6f6),),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: Image.asset("assets/image/baemin_logo.png",
-                              width: 70,
-                              fit: BoxFit.fill,),
-                            onPressed: () {
-                              _launchURL('https://www.baemin.com');
-                            },
-                          ),
-                          Text("배달의 민족",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                            ),),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: Image.asset("assets/image/yogiyo_logo.png",
-                              width: 70,
-                              fit: BoxFit.fill,),
-                            onPressed: () {
-                              _launchURL('https://www.yogiyo.co.kr');
-                            },
-                          ),
-                          Text("요기요",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                            ),),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: Image.asset("assets/image/coupang_logo.png",
-                              width: 70,
-                              fit: BoxFit.fill,),
-                            onPressed: () {
-                              _launchURL('https://www.coupang.com');
-                            },
-                          ),
-                          Text("쿠팡 이츠",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                            ),),
-                        ],
-                      ),
+                      //baemin_url*************************************
+                      if (widget.shop.baemin_url! != "") UrlButton(type: "배달",image: "assets/image/baemin_logo.png", name: "배달의 민족", url: widget.shop.baemin_url!, shop: widget.shop),
+                      //yogiyo_url*************************************
+                      if (widget.shop.yogiyo_url! != "")  UrlButton(type: "배달", image: "assets/image/yogiyo_logo.png", name: "요기요", url: widget.shop.yogiyo_url!, shop: widget.shop),
+                      //coupang_url*************************************
+                      if (widget.shop.coupang_url! != "")  UrlButton(type: "배달", image: "assets/image/coupang_logo.png", name: "쿠팡 이츠", url: widget.shop.coupang_url!, shop: widget.shop),
                     ],
                   ),
                 ),
@@ -132,46 +86,16 @@ class _FoodButtonState extends State<FoodButton> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xffD9D9D9),),
+                  color: Color(0xfff6f6f6),),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: Image.asset("assets/image/Naver_logo.png",
-                              width: 70,
-                              fit: BoxFit.fill,),
-                            onPressed: () {
-                              _launchURL('https://map.naver.com');
-                            },
-                          ),
-                          Text("네이버지도",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                            ),),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          IconButton(
-                            icon: Image.asset("assets/image/Kakao_logo.png",
-                              width: 70,
-                              fit: BoxFit.fill,),
-                            onPressed: () {
-                              _launchURL('https://map.kakao.com');
-                            },
-                          ),
-                          Text("카카오지도",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                            ),),
-                        ],
-                      ),
+                      //naver_url*************************************
+                      if (widget.shop.naver_url! != "")  UrlButton(type: "지도", image: "assets/image/Naver_logo.png", name: "네이버지도", url: widget.shop.naver_url!, shop: widget.shop),
+                      //kakaoMap_url*************************************
+                      if (widget.shop.kakaoMap_url! != "") UrlButton(type: "지도", image: "assets/image/Kakao_logo.png", name: "카카오지도", url: widget.shop.kakaoMap_url!, shop: widget.shop),
                     ],
                   ),
                 ),

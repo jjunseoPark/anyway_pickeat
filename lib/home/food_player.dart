@@ -1,20 +1,22 @@
 import 'package:chewie/chewie.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:pickeat/model/shops.dart';
 import 'package:video_player/video_player.dart';
-import 'food_information.dart';
+
+import '../analytic_config.dart';
 
 class FoodPlayer extends StatefulWidget {
-  const FoodPlayer({super.key});
+
+  Shop shop;
+
+  FoodPlayer({super.key, required this.shop});
 
   @override
   State<FoodPlayer> createState() => _FoodPlayerState();
 }
 
 class _FoodPlayerState extends State<FoodPlayer> {
-  int currentPage = 0;
-  final PageController verticalPageController = PageController(initialPage: 0, viewportFraction: 1.0);
-  final PageController horizontalPageController = PageController(initialPage: 0, viewportFraction: 1.0);
 
   late VideoPlayerController videoController;
   ChewieController? chewieController;
@@ -25,21 +27,30 @@ class _FoodPlayerState extends State<FoodPlayer> {
   void initState() {
     super.initState();
     initializePlayer();
+
+    Analytics_config().play_video(
+        menu_name: widget.shop.menu_name,
+        menu_price: widget.shop.menu_price,
+        store_rating_naver: widget.shop.store_rating_naver,
+        store_rating_kakao: widget.shop.store_rating_kakao,
+        store_name: widget.shop.store_name);
   }
 
   @override
   void dispose() {
-    verticalPageController.dispose();
-    horizontalPageController.dispose();
+    videoController.dispose();
     chewieController?.dispose();
     super.dispose();
   }
 
   // 영상 재생에 필요한 함수
   Future<void> initializePlayer() async {
-    final pathReference = await storageRef.child("menu_video/021.mp4").getDownloadURL();
+    final pathReference = await storageRef
+        .child("menu_video/${widget.shop.menu_id}.mp4")
+        .getDownloadURL();
 
-    videoController = VideoPlayerController.networkUrl(Uri.parse(pathReference));
+    videoController =
+        VideoPlayerController.networkUrl(Uri.parse(pathReference));
     await Future.wait([videoController.initialize()]);
     createChewieController();
     setState(() {});
@@ -51,76 +62,44 @@ class _FoodPlayerState extends State<FoodPlayer> {
       autoPlay: true,
       looping: true,
       showControls: false,
-      aspectRatio: MediaQuery.of(context).size.aspectRatio,
+      aspectRatio: videoController.value.aspectRatio,
     );
-  }
-
-  void _handleTapDown(TapDownDetails details, BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final dx = details.globalPosition.dx;
-
-    if (dx < screenWidth / 2) {
-      // 왼쪽 화면을 탭한 경우
-      horizontalPageController.previousPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      // 오른쪽 화면을 탭한 경우
-      horizontalPageController.nextPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView.builder(
-        scrollDirection: Axis.vertical,
-        controller: verticalPageController,
-        onPageChanged: (idx) {
-          setState(() {
-            currentPage = idx;
-          });
-        },
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTapDown: (details) => _handleTapDown(details, context),
-            child: PageView.builder(
-              scrollDirection: Axis.horizontal,
-              controller: horizontalPageController,
-              itemBuilder: (context, index) {
-                return Stack(
-                  children: [
-                    Container(
-                      color: Colors.white,
-                      child: Center(
-                        child: chewieController != null &&
-                            chewieController!.videoPlayerController.value.isInitialized
-                            ? Chewie(
-                          controller: chewieController!,
-                        )
-                            : const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircularProgressIndicator(),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text("loading"),
-                          ],
-                        ),
-                      ),
-                    ),
-                    FoodInformation(),
-                  ],
-                );
-              },
+    return Center(
+      child: chewieController != null &&
+          chewieController!.videoPlayerController.value.isInitialized
+          ? AspectRatio(
+        aspectRatio: MediaQuery.of(context).size.aspectRatio,
+        child: ClipRect(
+          child: OverflowBox(
+            alignment: Alignment.center,
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width /
+                    chewieController!
+                        .videoPlayerController.value.aspectRatio,
+                child: Chewie(
+                  controller: chewieController!,
+                ),
+              ),
             ),
-          );
-        },
+          ),
+        ),
+      )
+          : const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(),
+          SizedBox(
+            height: 20,
+          ),
+          Text("loading"),
+        ],
       ),
     );
   }

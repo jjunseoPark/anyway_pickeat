@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:pickeat/const/detect_zero.dart';
+import 'package:pickeat/model/shops.dart';
 
 import '../../const/color.dart';
 
 class FoodCoreInformation extends StatefulWidget {
-  const FoodCoreInformation({super.key});
+
+  Shop shop;
+
+  FoodCoreInformation({required this.shop, super.key});
 
   @override
   State<FoodCoreInformation> createState() => _FoodCoreInformationState();
 }
 
 class _FoodCoreInformationState extends State<FoodCoreInformation> {
+
+  var f = NumberFormat('###,###,###,###');
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +34,8 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "연어 스테이크 & 샐러드",
+//menu_name*************************************
+                    widget.shop.menu_name!,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w900,
@@ -43,7 +53,8 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                         width: 5,
                       ),
                       Text(
-                        "프레쉬 앤 그릴 마포점",
+//store_name*************************************
+                        widget.shop.store_name!,
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
@@ -55,7 +66,8 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                 ],
               ),
               Text(
-                "14,900원",
+//menu_price*************************************
+                "${f.format(widget.shop.menu_price!)}원",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -74,26 +86,7 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: picketColor,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      '리뷰',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromRGBO(125, 125, 125, 0.8),
+                    color: Color.fromRGBO(125, 125, 125, 0.4),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -112,7 +105,8 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5),
                               child: Text(
-                                "4.6",
+//store_rating_kakao*************************************
+                                detectZero(widget.shop.store_rating_kakao),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -132,7 +126,8 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                               padding: const EdgeInsets.fromLTRB(
                                   5, 0, 0, 0),
                               child: Text(
-                                "(17)",
+//store_count_kakao*************************************
+                                "(${detectZero(widget.shop.store_count_kakao!)})",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -151,7 +146,7 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color.fromRGBO(125, 125, 125, 0.8),
+                    color: Color.fromRGBO(125, 125, 125, 0.4),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -170,7 +165,8 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 5),
                               child: Text(
-                                "4.6",
+//store_rating_naver*************************************
+                                detectZero(widget.shop.store_rating_naver!),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -190,7 +186,8 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                               padding: const EdgeInsets.fromLTRB(
                                   5, 0, 0, 0),
                               child: Text(
-                                "(17)",
+//store_count_naver*************************************
+                                "(${detectZero(widget.shop.store_rating_naver!)})",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,

@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.39"
+  amplitude_flutter:
+    dependency: "direct main"
+    description:
+      name: amplitude_flutter
+      sha256: "8c74e518de6edb11198b59d3d13e2e7ec534bfad8300b6d5e4b8d2e20767a378"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.16.2"
   analyzer:
     dependency: transitive
     description:
@@ -490,10 +498,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_plugin_android_lifecycle
-      sha256: c6b0b4c05c458e1c01ad9bcc14041dd7b1f6783d487be4386f793f47a8a4d03e
+      sha256: "9d98bd47ef9d34e803d438f17fd32b116d31009f534a6fa5ce3a1167f189a6de"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.20"
+    version: "2.0.21"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -556,10 +564,10 @@ packages:
     dependency: transitive
     description:
       name: google_identity_services_web
-      sha256: "9482364c9f8b7bd36902572ebc3a7c2b5c8ee57a9c93e6eb5099c1a9ec5265d8"
+      sha256: c6a67eb2117d3954a95afe307c3347d5b7ead5f5ef78bd94b1a62d161f6335a8
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1+1"
+    version: "0.3.1+3"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -572,10 +580,10 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_android
-      sha256: d30fb34b659679ea74397e9748b4ab5d720720d57dcc79538f1b3c4a68654cb3
+      sha256: "5a47ebec9af97daf0822e800e4f101c3340b5ebc3f6898cf860c1a71b53cf077"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.27"
+    version: "6.1.28"
   google_sign_in_ios:
     dependency: transitive
     description:
@@ -660,10 +668,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_android
-      sha256: a26dc9a03fe042440c1e4be554fb0fceae2bf6d887d7467fc48c688fa4a81889
+      sha256: "8c3168469b005a6dbf5ba01f795917ae4f4e71077d3d7f2049a0d25a4760393e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.12+7"
+    version: "0.8.12+8"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -732,10 +740,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: c1b2e9b5ea78c45e1a0788d29606ba27dc5f71f019f32ca5140f61ef071838cf
+      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.1"
+    version: "0.6.7"
   json_annotation:
     dependency: "direct main"
     description:
@@ -888,6 +896,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
+  preload_page_view:
+    dependency: "direct main"
+    description:
+      name: preload_page_view
+      sha256: "488a10c158c5c2e9ba9d77e5dbc09b1e49e37a20df2301e5ba02992eac802b7a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   provider:
     dependency: transitive
     description:
@@ -1057,10 +1073,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "95d8027db36a0e52caf55680f91e33ea6aa12a3ce608c90b06f4e429a21067ac"
+      sha256: c24484594a8dea685610569ab0f2547de9c7a1907500a9bc5e37e4c9a3cbfb23
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.5"
+    version: "6.3.6"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1129,10 +1145,10 @@ packages:
     dependency: transitive
     description:
       name: video_player_android
-      sha256: fdc0331ce9f808cc2714014cb8126bd6369943affefd54f8fdab0ea0bb617b7f
+      sha256: b6f0a6d241e4a3435806cb7cb78cb666db8889c1866e432b6acd204707b3ac01
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.2"
+    version: "2.5.3"
   video_player_avfoundation:
     dependency: transitive
     description:
@@ -1169,10 +1185,10 @@ packages:
     dependency: transitive
     description:
       name: wakelock_plus
-      sha256: "14758533319a462ffb5aa3b7ddb198e59b29ac3b02da14173a1715d65d4e6e68"
+      sha256: "4fa83a128b4127619e385f686b4f080a5d2de46cff8e8c94eccac5fcf76550e5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.7"
   wakelock_plus_platform_interface:
     dependency: transitive
     description:

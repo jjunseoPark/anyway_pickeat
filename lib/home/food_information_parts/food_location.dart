@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../model/shops.dart';
+
 class FoodLocation extends StatefulWidget {
-  const FoodLocation({super.key});
+  Shop shop;
+
+  FoodLocation({required this.shop,super.key});
 
   @override
   State<FoodLocation> createState() => _FoodLocationState();
@@ -13,13 +17,14 @@ class _FoodLocationState extends State<FoodLocation> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        color: Color.fromRGBO(125, 125, 125, 0.8),
+        color: Color.fromRGBO(125, 125, 125, 0.4),
       ),
       height: 40,
-      width: 260,
+      width: 310,
       child: Center(
         child: Text(
-          "서울시 마포구: 2.3km",
+//store_address*************************************
+          "${widget.shop.store_address!}",
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
