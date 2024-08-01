@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pickeat/analytic_config.dart';
 import 'package:pickeat/const/color.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart'; // 이 줄을 추가하세요.
@@ -48,6 +49,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    Analytics_config().viewSignup();
   }
 
   @override
@@ -245,6 +253,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("회원가입 성공")),
                               );
+
+                              Analytics_config().signup();
+
                               context.go("/login");
                             }
                           } else {

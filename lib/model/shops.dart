@@ -1,35 +1,28 @@
-// import 'package:freezed_annotation/freezed_annotation.dart';
-//
-// part 'shops.freezed.dart';
-// part 'shops.g.dart';
-//
-// @freezed
-// sealed class Shop with _$Shop{
-//   factory Shop({
-//     String? shopId,
-//     double? kakaoRating,
-//     double? naverRating,
-//     String? kakaoURL,
-//     String? naverURL,
-//     String? image,
-//     String? name,
-//     List<Menu>? menuList,
-//   }) = _Shop;
-//
-//   factory Shop.fromJson(Map<String, dynamic> json) => _$ShopFromJson(json);
-// }
-//
-// @freezed
-// sealed class Menu with _$Menu {
-//   factory Menu({
-//     String? menuID,
-//     String? name,
-//     String? description,
-//     double? price,
-//     String? Video,
-//     String? BaeminURL,
-//     String? CoopangURL,
-//   }) = _Menu;
-//
-//   factory Menu.fromJson(Map<String, dynamic> json) => _$MenuFromJson(json);
-// }
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'shops.freezed.dart';
+
+part 'shops.g.dart';
+
+@freezed
+sealed class Shop with _$Shop {
+  factory Shop({
+    int? menu_id,
+    String? menu_name,
+    int? menu_price,
+    String? store_name,
+    String? store_address,
+    double? store_rating_kakao,
+    double? store_rating_naver,
+    String? yogiyo_url,
+    String? coupang_url,
+    String? baemin_url,
+    String? kakaoMap_url,
+    String? naver_url,
+    String? naverReview_url,
+    int? store_count_naver,
+    int? store_count_kakao,
+  }) = _Shop;
+
+  factory Shop.fromJson(Map<String, dynamic> json) => _$ShopFromJson(json);
+}
