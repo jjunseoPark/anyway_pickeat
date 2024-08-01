@@ -96,6 +96,8 @@ class _FoodButtonState extends State<FoodButton> {
                       if (widget.shop.naver_url! != "")  UrlButton(type: "지도", image: "assets/image/Naver_logo.png", name: "네이버지도", url: widget.shop.naver_url!, shop: widget.shop),
                       //kakaoMap_url*************************************
                       if (widget.shop.kakaoMap_url! != "") UrlButton(type: "지도", image: "assets/image/Kakao_logo.png", name: "카카오지도", url: widget.shop.kakaoMap_url!, shop: widget.shop),
+                      //AppleMap_url*************************************
+                      if (widget.shop.kakaoMap_url! != "") UrlButton(type: "지도", image: "assets/image/AppleMap_logo.png", name: "애플지도", url: widget.shop.kakaoMap_url!, shop: widget.shop),
                     ],
                   ),
                 ),
