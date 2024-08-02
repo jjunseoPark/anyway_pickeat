@@ -20,7 +20,7 @@ class _FoodLocationState extends State<FoodLocation> {
         color: Color.fromRGBO(125, 125, 125, 0.4),
       ),
       height: 40,
-      width: 310,
+      width: 320,
       child: Center(
         child: Text(
 //store_address*************************************

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pickeat/analytic_config.dart';
 import 'package:pickeat/const/color.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:pickeat/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
   }
-
 
   Future<UserCredential?> signIn(String email, String password) async {
     try {
@@ -55,6 +55,24 @@ class _LoginScreenState extends State<LoginScreen> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  Future<UserCredential?> signInWithApple() async {
+    final result = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    final oAuthProvider = OAuthProvider("apple.com");
+
+    final credential = oAuthProvider.credential(
+      idToken: result.identityToken,
+      accessToken: result.authorizationCode,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,143 +80,189 @@ class _LoginScreenState extends State<LoginScreen> {
         resizeToAvoidBottomInset: false,
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot){
+          builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
-            }  else if (snapshot.hasData) {
+            } else if (snapshot.hasData) {
               return HomeScreen();
-            }  else {
+            } else {
               return SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(48.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          //context.go("/");
-                        },
-                        child: Image.asset(
-                          "assets/image/login.png",
-                          fit: BoxFit.contain,
-                          width: 1000,
-                        ),
-                      ),
-                      Text(
-                        "Log In",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 42,
-                        ),
-                      ),
-                      Text(
-                        "쇼츠와 함께하는 오늘의 메뉴",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          color: Colors.black.withOpacity(0.6),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: emailTextController,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.email,
-                                  color: Colors.grey,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none,
-                                ),
-                                labelText: "이메일",
-                                filled: true,
-                                fillColor: Color.fromRGBO(155, 155, 155, 0.2),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "이메일 주소를 입력하세요.";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            TextFormField(
-                              controller: pwdTextController,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide.none,
-                                ),
-                                suffixIcon: Icon(
-                                  Icons.lock,
-                                  color: Colors.grey,
-                                ),
-                                labelText: "비밀번호",
-                                filled: true,
-                                fillColor: Color.fromRGBO(155, 155, 155, 0.2),
-                              ),
-                              obscureText: true,
-                              keyboardType: TextInputType.visiblePassword,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "비밀번호를 입력하세요.";
-                                }
-                                return null;
-                              },
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                      Expanded(
+                        child: Center(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "or",
-                                  textAlign: TextAlign.end,
+                                  "Log In",
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 42,
                                   ),
                                 ),
-                                TextButton(
-                                  onPressed: () async {
-                                    final userCredit = await signInWithGoogle();
+                                Text(
+                                  "쇼츠와 함께하는 오늘의 메뉴",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: [
+                                      TextFormField(
+                                        controller: emailTextController,
+                                        decoration: InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.email,
+                                            color: Colors.grey,
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                            borderSide: BorderSide.none,
+                                          ),
+                                          labelText: "이메일",
+                                          filled: true,
+                                          fillColor: Color.fromRGBO(
+                                              155, 155, 155, 0.2),
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "이메일 주소를 입력하세요.";
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 15,
+                                      ),
+                                      TextFormField(
+                                        controller: pwdTextController,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                            borderSide: BorderSide.none,
+                                          ),
+                                          suffixIcon: Icon(
+                                            Icons.lock,
+                                            color: Colors.grey,
+                                          ),
+                                          labelText: "비밀번호",
+                                          filled: true,
+                                          fillColor: Color.fromRGBO(
+                                              155, 155, 155, 0.2),
+                                        ),
+                                        obscureText: true,
+                                        keyboardType:
+                                        TextInputType.visiblePassword,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "비밀번호를 입력하세요.";
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "or",
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ), // 구분선과 로그인 버튼 사이의 공간 추가
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              final userCredit = await signInWithGoogle();
 
-                                    if (userCredit == null) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text("구글 로그인 실패"),
-                                      ));
-                                      return;
-                                    }
+                                              if (userCredit == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text("구글 로그인 실패"),
+                                                ));
+                                                return;
+                                              }
 
-                                    if (context.mounted) {
-                                      context.go("/");
-                                    }
-
-                                  },
-                                  child: Text(
-                                    "구글로 로그인하기",
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15,
-                                    ),
+                                              if (context.mounted) {
+                                                context.go("/");
+                                              }
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: Colors.black
+                                                      .withOpacity(0.3),
+                                                  width: 1,
+                                                ),
+                                              ),
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.white,
+                                                backgroundImage: AssetImage(
+                                                    "assets/image/google_logo.png"),
+                                                radius: 24,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 30),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              final result =
+                                              await signInWithApple();
+                                              if (result != null) {
+                                                if (context.mounted) {
+                                                  context.go("/");
+                                                }
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      "애플 로그인 실패"),
+                                                ));
+                                              }
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundImage: AssetImage(
+                                                  "assets/image/apple_logo.png"),
+                                              radius: 24,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                      Expanded(child: Container()),
                       Column(
                         children: [
                           MaterialButton(
@@ -212,7 +276,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 if (result == null) {
                                   if (context.mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
                                       content: Text("로그인 실패"),
                                     ));
                                   }
@@ -283,7 +348,6 @@ class _LoginScreenState extends State<LoginScreen> {
               );
             }
           },
-        )
-    );
+        ));
   }
 }
