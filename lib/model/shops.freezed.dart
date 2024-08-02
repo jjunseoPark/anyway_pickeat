@@ -30,6 +30,7 @@ mixin _$Shop {
   String? get yogiyo_url => throw _privateConstructorUsedError;
   String? get coupang_url => throw _privateConstructorUsedError;
   String? get baemin_url => throw _privateConstructorUsedError;
+  String? get appleMap_url => throw _privateConstructorUsedError;
   String? get kakaoMap_url => throw _privateConstructorUsedError;
   String? get naver_url => throw _privateConstructorUsedError;
   String? get naverReview_url => throw _privateConstructorUsedError;
@@ -57,6 +58,7 @@ abstract class $ShopCopyWith<$Res> {
       String? yogiyo_url,
       String? coupang_url,
       String? baemin_url,
+      String? appleMap_url,
       String? kakaoMap_url,
       String? naver_url,
       String? naverReview_url,
@@ -87,6 +89,7 @@ class _$ShopCopyWithImpl<$Res, $Val extends Shop>
     Object? yogiyo_url = freezed,
     Object? coupang_url = freezed,
     Object? baemin_url = freezed,
+    Object? appleMap_url = freezed,
     Object? kakaoMap_url = freezed,
     Object? naver_url = freezed,
     Object? naverReview_url = freezed,
@@ -134,6 +137,10 @@ class _$ShopCopyWithImpl<$Res, $Val extends Shop>
           ? _value.baemin_url
           : baemin_url // ignore: cast_nullable_to_non_nullable
               as String?,
+      appleMap_url: freezed == appleMap_url
+          ? _value.appleMap_url
+          : appleMap_url // ignore: cast_nullable_to_non_nullable
+              as String?,
       kakaoMap_url: freezed == kakaoMap_url
           ? _value.kakaoMap_url
           : kakaoMap_url // ignore: cast_nullable_to_non_nullable
@@ -176,6 +183,7 @@ abstract class _$$ShopImplCopyWith<$Res> implements $ShopCopyWith<$Res> {
       String? yogiyo_url,
       String? coupang_url,
       String? baemin_url,
+      String? appleMap_url,
       String? kakaoMap_url,
       String? naver_url,
       String? naverReview_url,
@@ -203,6 +211,7 @@ class __$$ShopImplCopyWithImpl<$Res>
     Object? yogiyo_url = freezed,
     Object? coupang_url = freezed,
     Object? baemin_url = freezed,
+    Object? appleMap_url = freezed,
     Object? kakaoMap_url = freezed,
     Object? naver_url = freezed,
     Object? naverReview_url = freezed,
@@ -250,6 +259,10 @@ class __$$ShopImplCopyWithImpl<$Res>
           ? _value.baemin_url
           : baemin_url // ignore: cast_nullable_to_non_nullable
               as String?,
+      appleMap_url: freezed == appleMap_url
+          ? _value.appleMap_url
+          : appleMap_url // ignore: cast_nullable_to_non_nullable
+              as String?,
       kakaoMap_url: freezed == kakaoMap_url
           ? _value.kakaoMap_url
           : kakaoMap_url // ignore: cast_nullable_to_non_nullable
@@ -288,6 +301,7 @@ class _$ShopImpl implements _Shop {
       this.yogiyo_url,
       this.coupang_url,
       this.baemin_url,
+      this.appleMap_url,
       this.kakaoMap_url,
       this.naver_url,
       this.naverReview_url,
@@ -318,6 +332,8 @@ class _$ShopImpl implements _Shop {
   @override
   final String? baemin_url;
   @override
+  final String? appleMap_url;
+  @override
   final String? kakaoMap_url;
   @override
   final String? naver_url;
@@ -330,7 +346,7 @@ class _$ShopImpl implements _Shop {
 
   @override
   String toString() {
-    return 'Shop(menu_id: $menu_id, menu_name: $menu_name, menu_price: $menu_price, store_name: $store_name, store_address: $store_address, store_rating_kakao: $store_rating_kakao, store_rating_naver: $store_rating_naver, yogiyo_url: $yogiyo_url, coupang_url: $coupang_url, baemin_url: $baemin_url, kakaoMap_url: $kakaoMap_url, naver_url: $naver_url, naverReview_url: $naverReview_url, store_count_naver: $store_count_naver, store_count_kakao: $store_count_kakao)';
+    return 'Shop(menu_id: $menu_id, menu_name: $menu_name, menu_price: $menu_price, store_name: $store_name, store_address: $store_address, store_rating_kakao: $store_rating_kakao, store_rating_naver: $store_rating_naver, yogiyo_url: $yogiyo_url, coupang_url: $coupang_url, baemin_url: $baemin_url, appleMap_url: $appleMap_url, kakaoMap_url: $kakaoMap_url, naver_url: $naver_url, naverReview_url: $naverReview_url, store_count_naver: $store_count_naver, store_count_kakao: $store_count_kakao)';
   }
 
   @override
@@ -357,6 +373,8 @@ class _$ShopImpl implements _Shop {
                 other.coupang_url == coupang_url) &&
             (identical(other.baemin_url, baemin_url) ||
                 other.baemin_url == baemin_url) &&
+            (identical(other.appleMap_url, appleMap_url) ||
+                other.appleMap_url == appleMap_url) &&
             (identical(other.kakaoMap_url, kakaoMap_url) ||
                 other.kakaoMap_url == kakaoMap_url) &&
             (identical(other.naver_url, naver_url) ||
@@ -383,6 +401,7 @@ class _$ShopImpl implements _Shop {
       yogiyo_url,
       coupang_url,
       baemin_url,
+      appleMap_url,
       kakaoMap_url,
       naver_url,
       naverReview_url,
@@ -415,6 +434,7 @@ abstract class _Shop implements Shop {
       final String? yogiyo_url,
       final String? coupang_url,
       final String? baemin_url,
+      final String? appleMap_url,
       final String? kakaoMap_url,
       final String? naver_url,
       final String? naverReview_url,
@@ -443,6 +463,8 @@ abstract class _Shop implements Shop {
   String? get coupang_url;
   @override
   String? get baemin_url;
+  @override
+  String? get appleMap_url;
   @override
   String? get kakaoMap_url;
   @override

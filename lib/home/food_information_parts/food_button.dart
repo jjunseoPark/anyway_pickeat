@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pickeat/const/url_button.dart';
 import 'package:pickeat/model/shops.dart';
@@ -47,12 +49,12 @@ class _FoodButtonState extends State<FoodButton> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      //baemin_url*************************************
-                      if (widget.shop.baemin_url! != "") UrlButton(type: "배달",image: "assets/image/baemin_logo.png", name: "배달의 민족", url: widget.shop.baemin_url!, shop: widget.shop),
-                      //yogiyo_url*************************************
-                      if (widget.shop.yogiyo_url! != "")  UrlButton(type: "배달", image: "assets/image/yogiyo_logo.png", name: "요기요", url: widget.shop.yogiyo_url!, shop: widget.shop),
                       //coupang_url*************************************
                       if (widget.shop.coupang_url! != "")  UrlButton(type: "배달", image: "assets/image/coupang_logo.png", name: "쿠팡 이츠", url: widget.shop.coupang_url!, shop: widget.shop),
+                      //yogiyo_url*************************************
+                      if (widget.shop.yogiyo_url! != "")  UrlButton(type: "배달", image: "assets/image/yogiyo_logo.png", name: "요기요", url: widget.shop.yogiyo_url!, shop: widget.shop),
+                      //baemin_url*************************************
+                      if (widget.shop.baemin_url! != "") UrlButton(type: "배달",image: "assets/image/baemin_logo.png", name: "배달의 민족", url: widget.shop.baemin_url!, shop: widget.shop),
                     ],
                   ),
                 ),
@@ -97,7 +99,7 @@ class _FoodButtonState extends State<FoodButton> {
                       //kakaoMap_url*************************************
                       if (widget.shop.kakaoMap_url! != "") UrlButton(type: "지도", image: "assets/image/Kakao_logo.png", name: "카카오지도", url: widget.shop.kakaoMap_url!, shop: widget.shop),
                       //AppleMap_url*************************************
-                      if (widget.shop.kakaoMap_url! != "") UrlButton(type: "지도", image: "assets/image/AppleMap_logo.png", name: "애플지도", url: widget.shop.kakaoMap_url!, shop: widget.shop),
+                      if (widget.shop.kakaoMap_url! != "" && Platform.isIOS) UrlButton(type: "지도", image: "assets/image/AppleMap_logo.png", name: "애플지도", url: widget.shop.appleMap_url!, shop: widget.shop),
                     ],
                   ),
                 ),

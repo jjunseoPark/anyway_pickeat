@@ -17,6 +17,7 @@ sealed class Shop with _$Shop {
     String? yogiyo_url,
     String? coupang_url,
     String? baemin_url,
+    String? appleMap_url,
     String? kakaoMap_url,
     String? naver_url,
     String? naverReview_url,
