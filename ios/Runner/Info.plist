@@ -2,16 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App would like to use photo library usage description for improving the customer experience</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>App would like to use tracking usage description for improving the customer experience</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>App would like to use local network usage description for using app service</string>
-	<key>NSContactsUsageDescription</key>
-	<string>App would like to use contacts usage description for improving the customer experience</string>
-	<key>NSAppleEventsUsageDescription</key>
-	<string>App would like to use your AppleEvent Sending Usage Description for communication purposes</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -39,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.501552850338-b3s1c2htju2tnbl7h4qlkd5je1pefho4</string>
+				<string>com.googleusercontent.apps.501552850338-i0fot3bp5fjcdtu0mcj9nuqfjufkdkos</string>
 			</array>
 		</dict>
 	</array>
@@ -47,6 +37,16 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>App would like to use your AppleEvent Sending Usage Description for communication purposes</string>
+	<key>NSContactsUsageDescription</key>
+	<string>App would like to use contacts usage description for improving the customer experience</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>App would like to use local network usage description for using app service</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App would like to use photo library usage description for improving the customer experience</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>App would like to use tracking usage description for improving the customer experience</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

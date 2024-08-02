@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pickeat/const/launch_url.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
-
-    Future<void> _launchURL(String url) async {
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -84,7 +77,8 @@ class ProfileScreen extends StatelessWidget {
                   onPressed: () async {
                     await FirebaseAuth.instance.signOut();
                     if (context.mounted) {
-                      Navigator.of(context).pushReplacementNamed('/login');
+                      context.go('/login');
+                      context.pop();
                     }
                   },
                   height: 48,
@@ -116,7 +110,7 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
-                    _launchURL("http://pf.kakao.com/_IHxayG/chat"); // 회원 탈퇴 URL로 변경
+                    launchURL("http://pf.kakao.com/_IHxayG/chat"); // 회원 탈퇴 URL로 변경
                   },
                   child: Text(
                     "계정 삭제하기",

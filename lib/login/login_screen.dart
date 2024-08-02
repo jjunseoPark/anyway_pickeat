@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:pickeat/analytic_config.dart';
 import 'package:pickeat/const/color.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pickeat/home/profile.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:pickeat/home/home_screen.dart';
+import 'dart:io';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -60,21 +62,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<UserCredential?> signInWithApple() async {
-    final result = await SignInWithApple.getAppleIDCredential(
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
       ],
     );
 
-    final oAuthProvider = OAuthProvider("apple.com");
-
-    final credential = oAuthProvider.credential(
-      idToken: result.identityToken,
-      accessToken: result.authorizationCode,
+    final oauthCredential = OAuthProvider("apple.com").credential(
+      idToken: appleCredential.identityToken,
+      accessToken: appleCredential.authorizationCode,
     );
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
   }
 
   @override
@@ -234,8 +234,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: 30),
-                                          GestureDetector(
+                                          if (Platform.isIOS) SizedBox(width: 30),
+                                          if (Platform.isIOS) GestureDetector(
                                             onTap: () async {
                                               final result =
                                               await signInWithApple();

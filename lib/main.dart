@@ -9,7 +9,7 @@ import 'package:pickeat/home/home_screen.dart';
 import 'package:pickeat/login/login_screen.dart';
 import 'package:pickeat/login/sign_up_screen.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -28,15 +28,17 @@ class PickeatApp extends StatefulWidget {
 }
 
 class _PickeatAppState extends State<PickeatApp> {
-
   //app tracking transparency
   String _authStatus = 'Unknown';
+
   Future<void> initPlugin() async {
-    final TrackingStatus status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    final TrackingStatus status =
+        await AppTrackingTransparency.trackingAuthorizationStatus;
     setState(() => _authStatus = '$status');
 
     if (status == TrackingStatus.notDetermined) {
-      final TrackingStatus status = await AppTrackingTransparency.requestTrackingAuthorization();
+      final TrackingStatus status =
+          await AppTrackingTransparency.requestTrackingAuthorization();
       setState(() => _authStatus = '$status');
     }
 
@@ -50,15 +52,10 @@ class _PickeatAppState extends State<PickeatApp> {
   }
 
   @override
-
   final router = GoRouter(
     initialLocation: "/login",
     routes: [
-      GoRoute(
-        path: "/",
-        builder: (context, state) => HomeScreen(),
-        routes: []
-      ),
+      GoRoute(path: "/", builder: (context, state) => HomeScreen(), routes: []),
       GoRoute(
         path: "/login",
         builder: (context, state) => LoginScreen(),
@@ -72,7 +69,6 @@ class _PickeatAppState extends State<PickeatApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Pickeat',

@@ -63,6 +63,7 @@ class _FoodPlayerState extends State<FoodPlayer> {
       looping: true,
       showControls: false,
       aspectRatio: videoController.value.aspectRatio,
+      allowMuting: true,
     );
   }
 
