@@ -18,6 +18,9 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController pwdTextController = TextEditingController();
 
+
+
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       print(e.toString());
     }
+    return null;
   }
 
   Future<UserCredential?> signInWithGoogle() async {

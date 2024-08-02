@@ -1,18 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pickeat/analytic_config.dart';
-import 'package:pickeat/const/analytics_config.dart';
 import 'package:pickeat/const/color.dart';
 import 'package:pickeat/firebase_options.dart';
 import 'package:pickeat/home/home_screen.dart';
 import 'package:pickeat/login/login_screen.dart';
 import 'package:pickeat/login/sign_up_screen.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +28,26 @@ class PickeatApp extends StatefulWidget {
 }
 
 class _PickeatAppState extends State<PickeatApp> {
+
+  //app tracking transparency
+  String _authStatus = 'Unknown';
+  Future<void> initPlugin() async {
+    final TrackingStatus status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    setState(() => _authStatus = '$status');
+
+    if (status == TrackingStatus.notDetermined) {
+      final TrackingStatus status = await AppTrackingTransparency.requestTrackingAuthorization();
+      setState(() => _authStatus = '$status');
+    }
+
+    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPlugin();
+  }
 
   @override
 
