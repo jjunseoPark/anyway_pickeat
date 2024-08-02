@@ -21,9 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController pwdTextController = TextEditingController();
 
-
-
-
   @override
   void initState() {
     super.initState();
@@ -96,162 +93,164 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
-        body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else if (snapshot.hasData) {
-              return HomeScreen();
-            } else {
-              return SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(48.0),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Log In",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 42,
-                                  ),
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasData) {
+            return HomeScreen();
+          } else {
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(48.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Log In",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 42,
                                 ),
-                                Text(
-                                  "쇼츠와 함께하는 오늘의 메뉴",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15,
-                                    color: Colors.black.withOpacity(0.6),
-                                  ),
+                              ),
+                              Text(
+                                "쇼츠와 함께하는 오늘의 메뉴",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 15,
+                                  color: Colors.black.withOpacity(0.6),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: [
-                                      TextFormField(
-                                        controller: emailTextController,
-                                        decoration: InputDecoration(
-                                          suffixIcon: Icon(
-                                            Icons.email,
-                                            color: Colors.grey,
-                                          ),
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          labelText: "이메일",
-                                          filled: true,
-                                          fillColor: Color.fromRGBO(
-                                              155, 155, 155, 0.2),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      controller: emailTextController,
+                                      decoration: InputDecoration(
+                                        suffixIcon: Icon(
+                                          Icons.email,
+                                          color: Colors.grey,
                                         ),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return "이메일 주소를 입력하세요.";
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      TextFormField(
-                                        controller: pwdTextController,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          suffixIcon: Icon(
-                                            Icons.lock,
-                                            color: Colors.grey,
-                                          ),
-                                          labelText: "비밀번호",
-                                          filled: true,
-                                          fillColor: Color.fromRGBO(
-                                              155, 155, 155, 0.2),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          borderSide: BorderSide.none,
                                         ),
-                                        obscureText: true,
-                                        keyboardType:
-                                        TextInputType.visiblePassword,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return "비밀번호를 입력하세요.";
-                                          }
-                                          return null;
-                                        },
+                                        labelText: "이메일",
+                                        filled: true,
+                                        fillColor: Color.fromRGBO(
+                                            155, 155, 155, 0.2),
                                       ),
-                                      SizedBox(
-                                        height: 20,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "이메일 주소를 입력하세요.";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    TextFormField(
+                                      controller: pwdTextController,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        suffixIcon: Icon(
+                                          Icons.lock,
+                                          color: Colors.grey,
+                                        ),
+                                        labelText: "비밀번호",
+                                        filled: true,
+                                        fillColor: Color.fromRGBO(
+                                            155, 155, 155, 0.2),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "or",
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                              fontSize: 15,
+                                      obscureText: true,
+                                      keyboardType:
+                                      TextInputType.visiblePassword,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "비밀번호를 입력하세요.";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "or",
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ), // 구분선과 로그인 버튼 사이의 공간 추가
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () async {
+                                            final userCredit =
+                                            await signInWithGoogle();
+
+                                            if (userCredit == null) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                content: Text("구글 로그인 실패"),
+                                              ));
+                                              return;
+                                            }
+
+                                            if (context.mounted) {
+                                              context.go("/");
+                                            }
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: Colors.black
+                                                    .withOpacity(0.3),
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: CircleAvatar(
+                                              backgroundColor: Colors.white,
+                                              backgroundImage: AssetImage(
+                                                  "assets/image/google_logo.png"),
+                                              radius: 24,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ), // 구분선과 로그인 버튼 사이의 공간 추가
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
+                                        ),
+                                        if (Platform.isIOS) SizedBox(width: 30),
+                                        if (Platform.isIOS)
                                           GestureDetector(
-                                            onTap: () async {
-                                              final userCredit = await signInWithGoogle();
-
-                                              if (userCredit == null) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                  content: Text("구글 로그인 실패"),
-                                                ));
-                                                return;
-                                              }
-
-                                              if (context.mounted) {
-                                                context.go("/");
-                                              }
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
-                                                  color: Colors.black
-                                                      .withOpacity(0.3),
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: CircleAvatar(
-                                                backgroundColor: Colors.white,
-                                                backgroundImage: AssetImage(
-                                                    "assets/image/google_logo.png"),
-                                                radius: 24,
-                                              ),
-                                            ),
-                                          ),
-                                          if (Platform.isIOS) SizedBox(width: 30),
-                                          if (Platform.isIOS) GestureDetector(
                                             onTap: () async {
                                               final result =
                                               await signInWithApple();
@@ -262,8 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               } else {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
-                                                  content: Text(
-                                                      "애플 로그인 실패"),
+                                                  content: Text("애플 로그인 실패"),
                                                 ));
                                               }
                                             },
@@ -273,101 +271,136 @@ class _LoginScreenState extends State<LoginScreen> {
                                               radius: 24,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          MaterialButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-
-                                final result = await signIn(
-                                    emailTextController.text.trim(),
-                                    pwdTextController.text.trim());
-
-                                if (result == null) {
-                                  if (context.mounted) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text("로그인 실패"),
-                                    ));
-                                  }
-                                  return;
-                                }
-
-                                if (context.mounted) {
-                                  Analytics_config().login();
-                                  context.go("/");
-                                }
-                              }
-                            },
-                            height: 48,
-                            minWidth: double.infinity,
-                            color: picketColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Next",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: Colors.white,
-                                  size: 18,
-                                )
-                              ],
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "계정이 없나요?",
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () => context.push("/sign_up"),
-                                child: Text(
-                                  "회원가입",
-                                  style: TextStyle(
-                                    color: picketColor,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                  ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  context.go("/");
+                                },
+                                height: 48,
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(color: picketColor),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "건너뛰기",
+                                      style: TextStyle(
+                                        color: picketColor,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Flexible(
+                              flex: 2,
+                              child: MaterialButton(
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+
+                                    final result = await signIn(
+                                        emailTextController.text.trim(),
+                                        pwdTextController.text.trim());
+
+                                    if (result == null) {
+                                      if (context.mounted) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text("로그인 실패"),
+                                        ));
+                                      }
+                                      return;
+                                    }
+
+                                    if (context.mounted) {
+                                      Analytics_config().login();
+                                      context.go("/");
+                                    }
+                                  }
+                                },
+                                height: 48,
+                                color: picketColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Next",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "계정이 없나요?",
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => context.push("/sign_up"),
+                              child: Text(
+                                "회원가입",
+                                style: TextStyle(
+                                  color: picketColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              );
-            }
-          },
-        ));
+              ),
+            );
+          }
+        },
+      ),
+    );
   }
 }
