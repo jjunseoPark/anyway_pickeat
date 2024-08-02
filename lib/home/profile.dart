@@ -37,24 +37,9 @@ class ProfileScreen extends StatelessWidget {
                       fontSize: 30,
                     ),
                   ),
-                  SizedBox(height: 30,),
-                  TextFormField(
-                    initialValue: user?.displayName ?? 'Anonymous',
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person, color: Colors.grey),
-                      labelText: '닉네임',
-                      filled: true,
-                      fillColor: Color.fromRGBO(240, 240, 240, 1),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    readOnly: true,
-                  ),
                   SizedBox(height: 16),
                   TextFormField(
-                    initialValue: user?.email ?? 'Valid address',
+                    initialValue: user?.email ?? '회원가입 유저가 아닙니다.',
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.email, color: Colors.grey),
                       labelText: '이메일',
@@ -73,13 +58,13 @@ class ProfileScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                MaterialButton(
+                if (user != null && !user.isAnonymous)MaterialButton(
                   onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
                     if (context.mounted) {
-                      context.go('/login');
                       context.pop();
+                      context.go('/login');
                     }
+                    await FirebaseAuth.instance.signOut();
                   },
                   height: 48,
                   minWidth: double.infinity,
@@ -92,6 +77,41 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Text(
                         "Logout",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ],
+                  ),
+                ),
+                if (user != null && user.isAnonymous)MaterialButton(
+                  onPressed: () async {
+                    if (context.mounted) {
+                      context.pop();
+                      context.go('/login');
+                    }
+
+                    await FirebaseAuth.instance.signOut();
+                  },
+                  height: 48,
+                  minWidth: double.infinity,
+                  color: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "회원가입",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pickeat/analytic_config.dart';
 import 'package:pickeat/const/color.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pickeat/home/profile.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:pickeat/home/home_screen.dart';
 import 'dart:io';
@@ -288,8 +287,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             Flexible(
                               flex: 1,
                               child: MaterialButton(
-                                onPressed: () {
-                                  context.go("/");
+                                onPressed: () async {
+                                  final userCredit =
+                                      await signInAnonymous();
+
+                                  if (context.mounted) {
+                                    context.go("/");
+                                  }
                                 },
                                 height: 48,
                                 color: Colors.white,

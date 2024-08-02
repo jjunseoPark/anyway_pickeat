@@ -143,28 +143,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(
                             height: 15,
                           ),
-                          TextFormField(
-                            controller: nicknameTextController,
-                            decoration: InputDecoration(
-                              suffixIcon: Icon(
-                                Icons.person,
-                                color: Colors.grey,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              labelText: "닉네임",
-                              filled: true,
-                              fillColor: Color.fromRGBO(155, 155, 155, 0.2),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "닉네임을 입력하세요.";
-                              }
-                              return null;
-                            },
-                          ),
+                          // TextFormField(
+                          //   controller: nicknameTextController,
+                          //   decoration: InputDecoration(
+                          //     suffixIcon: Icon(
+                          //       Icons.person,
+                          //       color: Colors.grey,
+                          //     ),
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //       borderSide: BorderSide.none,
+                          //     ),
+                          //     labelText: "닉네임",
+                          //     filled: true,
+                          //     fillColor: Color.fromRGBO(155, 155, 155, 0.2),
+                          //   ),
+                          //   validator: (value) {
+                          //     if (value == null || value.isEmpty) {
+                          //       return "닉네임을 입력하세요.";
+                          //     }
+                          //     return null;
+                          //   },
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
