@@ -41,7 +41,7 @@ class _FoodInformationState extends State<FoodInformation> {
             //FoodLocation(shop: widget.shop),
 
             //topbar(지역선택, 프로필)
-            FoodTopbar(),
+            FoodLocation(shop: widget.shop),
 
             //빈공간
             Expanded(
