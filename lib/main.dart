@@ -6,6 +6,7 @@ import 'package:pickeat/analytic_config.dart';
 import 'package:pickeat/const/color.dart';
 import 'package:pickeat/firebase_options.dart';
 import 'package:pickeat/home/home_screen.dart';
+import 'package:pickeat/login/choose_location.dart';
 import 'package:pickeat/login/login_screen.dart';
 import 'package:pickeat/login/sign_up_screen.dart';
 
@@ -63,6 +64,10 @@ class _PickeatAppState extends State<PickeatApp> {
       GoRoute(
         path: "/sign_up",
         builder: (context, state) => SignUpScreen(),
+      ),
+      GoRoute(
+        path: "/choose_location",
+        builder: (context, state) => ChooseLocation(),
       ),
     ],
   );
