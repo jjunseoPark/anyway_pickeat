@@ -44,34 +44,6 @@ class _FoodSidebarState extends State<FoodSidebar> {
             children: [
               IconButton(
                 icon: Icon(
-                  Icons.person_outline,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()), // ProfileScreen은 profile.dart에서 정의된 화면 클래스
-                  );
-                },
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                constraints: BoxConstraints(
-                  minHeight: 0,
-                  minWidth: 0,
-                ),
-              ),
-              Text(
-                '프로필',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 20,),
-              IconButton(
-                icon: Icon(
                   _isFavorited ? Icons.favorite : Icons.favorite_border,
                   size: 30,
                   color: Colors.white,
