@@ -37,7 +37,7 @@ class _FoodInformationState extends State<FoodInformation> {
         child: Column(
           children: [
             //위치표시
-            FoodLocation(shop: widget.shop),
+            //FoodLocation(shop: widget.shop),
             //빈공간
             Expanded(
               child: Container(),
