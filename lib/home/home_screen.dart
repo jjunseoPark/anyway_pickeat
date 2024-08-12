@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pickeat/home/food_slide.dart';
 
+import '../enum/location.dart';
 import '../model/shops.dart';
 
 
@@ -16,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Shop> shops = [];
   final db = FirebaseFirestore.instance;
+  final location = Location.Sinchon;
 
   Future<List<Shop>> initialFireStore() async {
     var shopDB = await db.collection("store_db").get();
