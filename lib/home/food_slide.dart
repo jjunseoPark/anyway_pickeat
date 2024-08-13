@@ -49,8 +49,8 @@ class _FoodSlideState extends State<FoodSlide> {
         itemBuilder: (context, index) {
           return Stack(
             children: [
-              FoodPlayer(shop: widget.shops[index % itemCount]),
-              FoodInformation(shop: widget.shops[index % itemCount]),
+              FoodPlayer(shop: widget.shops[index % itemCount + 1]),
+              FoodInformation(shop: widget.shops[index % itemCount + 1]),
             ],
           );
         });
