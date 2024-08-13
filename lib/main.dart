@@ -10,6 +10,8 @@ import 'package:pickeat/login/choose_location.dart';
 import 'package:pickeat/login/login_screen.dart';
 import 'package:pickeat/login/sign_up_screen.dart';
 
+import 'enum/location.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -56,7 +58,7 @@ class _PickeatAppState extends State<PickeatApp> {
   final router = GoRouter(
     initialLocation: "/login",
     routes: [
-      GoRoute(path: "/", builder: (context, state) => HomeScreen(), routes: []),
+      GoRoute(path: "/", builder: (context, state) => HomeScreen(location: Location.Gangnam), routes: []),
       GoRoute(
         path: "/login",
         builder: (context, state) => LoginScreen(),

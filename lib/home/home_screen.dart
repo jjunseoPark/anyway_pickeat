@@ -7,7 +7,10 @@ import '../model/shops.dart';
 
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+
+  final Location location;
+
+  const HomeScreen({super.key, required this.location});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -17,10 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Shop> shops = [];
   final db = FirebaseFirestore.instance;
-  final location = Location.Sinchon;
 
   Future<List<Shop>> initialFireStore() async {
-    var shopDB = await db.collection("store_db").get();
+    var shopDB = await db.collection("store_db_${widget.location}").get();
     for (var shop in shopDB.docs) {
       shops.add(Shop.fromJson(shop.data()));
     }
@@ -64,3 +66,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+

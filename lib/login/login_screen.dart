@@ -8,6 +8,8 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:pickeat/home/home_screen.dart';
 import 'dart:io';
 
+import '../enum/location.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -100,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            return HomeScreen();
+            return HomeScreen(location: Location.Gangnam,);
           } else {
             return SafeArea(
               child: Padding(
