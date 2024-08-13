@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pickeat/analytic_config.dart';
 import 'package:pickeat/const/color.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pickeat/function/user_activity.dart';
+import 'package:pickeat/login/choose_location.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:pickeat/home/home_screen.dart';
 import 'dart:io';
@@ -21,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailTextController = TextEditingController();
   TextEditingController pwdTextController = TextEditingController();
+  String location = '';
 
   @override
   void initState() {
@@ -49,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<UserCredential?> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication? googleAuth =
-    await googleUser?.authentication;
+        await googleUser?.authentication;
 
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
@@ -78,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<UserCredential?> signInAnonymous() async {
     try {
       final anonymousCredential =
-      await FirebaseAuth.instance.signInAnonymously();
+          await FirebaseAuth.instance.signInAnonymously();
       print("Signed in with temporary account.");
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -96,13 +99,29 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
+
+      // 유저가 로그인이 되어있는 유저인지 아닌지 판단
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            return HomeScreen(location: Location.Gangnam,);
+            //user activity 받아서 화면 보여줌 (강남, 신촌, 관악 중 유저가 선택한 것을 불러옴)
+            return FutureBuilder(
+              future: getUserActivity(),
+              builder: (BuildContext context, AsyncSnapshot snapshot){
+                if (snapshot.hasData == false) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('User Activity Error');
+                } else {
+                  return HomeScreen(location: snapshot.data);
+                }
+              },
+            );
           } else {
             return SafeArea(
               child: Padding(
@@ -138,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 key: _formKey,
                                 child: Column(
                                   children: [
+                                    // 아이디 입력
                                     TextFormField(
                                       controller: emailTextController,
                                       decoration: InputDecoration(
@@ -147,13 +167,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide.none,
                                         ),
                                         labelText: "이메일",
                                         filled: true,
-                                        fillColor: Color.fromRGBO(
-                                            155, 155, 155, 0.2),
+                                        fillColor:
+                                            Color.fromRGBO(155, 155, 155, 0.2),
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
@@ -165,12 +185,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     SizedBox(
                                       height: 15,
                                     ),
+                                    // 비밀번호 입력
                                     TextFormField(
                                       controller: pwdTextController,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide.none,
                                         ),
                                         suffixIcon: Icon(
@@ -179,12 +200,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         labelText: "비밀번호",
                                         filled: true,
-                                        fillColor: Color.fromRGBO(
-                                            155, 155, 155, 0.2),
+                                        fillColor:
+                                            Color.fromRGBO(155, 155, 155, 0.2),
                                       ),
                                       obscureText: true,
                                       keyboardType:
-                                      TextInputType.visiblePassword,
+                                          TextInputType.visiblePassword,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return "비밀번호를 입력하세요.";
@@ -195,9 +216,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     SizedBox(
                                       height: 20,
                                     ),
+                                    // 아이디비번 로그인과 간편 로그인 구분선
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "or",
@@ -210,15 +232,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     SizedBox(
                                       height: 10,
-                                    ), // 구분선과 로그인 버튼 사이의 공간 추가
+                                    ),
+                                    // 간편 로그인
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
+                                        //구글 로그인
                                         GestureDetector(
                                           onTap: () async {
                                             final userCredit =
-                                            await signInWithGoogle();
+                                                await signInWithGoogle();
 
                                             if (userCredit == null) {
                                               ScaffoldMessenger.of(context)
@@ -229,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             }
 
                                             if (context.mounted) {
-                                              context.go("/");
+                                              context.go("/choose_location");
                                             }
                                           },
                                           child: Container(
@@ -249,15 +273,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ),
                                           ),
                                         ),
+                                        //애플 로그인
                                         if (Platform.isIOS) SizedBox(width: 30),
                                         if (Platform.isIOS)
                                           GestureDetector(
                                             onTap: () async {
                                               final result =
-                                              await signInWithApple();
+                                                  await signInWithApple();
                                               if (result != null) {
                                                 if (context.mounted) {
-                                                  context.go("/");
+                                                  context.go("/choose_location");
                                                 }
                                               } else {
                                                 ScaffoldMessenger.of(context)
@@ -286,15 +311,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Row(
                           children: [
+                            // 로그인 건너뛰기
                             Flexible(
                               flex: 1,
                               child: MaterialButton(
                                 onPressed: () async {
-                                  final userCredit =
-                                      await signInAnonymous();
+                                  final userCredit = await signInAnonymous();
 
                                   if (context.mounted) {
-                                    context.go("/");
+                                    context.go("/choose_location");
                                   }
                                 },
                                 height: 48,
@@ -319,6 +344,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             SizedBox(width: 10),
+
+                            // 로그인하기 버튼
                             Flexible(
                               flex: 2,
                               child: MaterialButton(
@@ -342,7 +369,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                     if (context.mounted) {
                                       Analytics_config().login();
-                                      context.go("/");
+                                      context.go("/choose_location");
                                     }
                                   }
                                 },
@@ -385,6 +412,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 13,
                               ),
                             ),
+                            //회원가입 버튼
                             TextButton(
                               onPressed: () => context.push("/sign_up"),
                               child: Text(

@@ -256,7 +256,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                               Analytics_config().signup();
 
-                              context.go("/login");
+                              context.pop();
+
+                              context.go('/choose_location');
                             }
                           } else {
                             if (context.mounted) {
@@ -301,7 +303,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        context.go("/login"); // 로그인 화면으로 이동
+                        context.pop(); // 로그인 화면으로 이동
                       },
                       child: Text(
                         "이미 계정이 있으신가요?",

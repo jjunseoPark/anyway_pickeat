@@ -1,5 +1,5 @@
-enum Location {
-  Gangnam,
-  Sinchon,
-  Gwanak,
-}
+// enum Location {
+//   Gangnam,
+//   Sinchon,
+//   Gwanak,
+// }

@@ -58,7 +58,11 @@ class _PickeatAppState extends State<PickeatApp> {
   final router = GoRouter(
     initialLocation: "/login",
     routes: [
-      GoRoute(path: "/", builder: (context, state) => HomeScreen(location: Location.Gangnam), routes: []),
+      GoRoute(
+          path: "/home/:location",
+          builder: (context, state) =>
+              HomeScreen(location: state.pathParameters["location"] ?? "Gangnam"),
+          routes: []),
       GoRoute(
         path: "/login",
         builder: (context, state) => LoginScreen(),

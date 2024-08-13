@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../function/user_activity.dart';
 import '../../model/shops.dart';
 import '../profile.dart';
 
@@ -47,7 +49,9 @@ void _showlocationBottomSheet(BuildContext context) {
                 ),
               ),
               onTap: () {
+                setUserActivity("Gangnam");
                 Navigator.pop(context);
+                context.push('/login');
                 // 여기에 선택한 위치에 대한 로직을 추가할 수 있습니다.
               },
             ),
@@ -60,20 +64,24 @@ void _showlocationBottomSheet(BuildContext context) {
                 ),
               ),
               onTap: () {
+                setUserActivity("Gwanak");
                 Navigator.pop(context);
+                context.push('/login');
                 // 여기에 현재 위치에 대한 로직을 추가할 수 있습니다.
               },
             ),
             ListTile(
               leading: Icon(Icons.location_on),
-              title: Text('서울시 마포구',
+              title: Text('서울시 서대문구',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               onTap: () {
+                setUserActivity("Sinchon");
                 Navigator.pop(context);
+                context.push('/login');
                 // 여기에 지도를 사용한 위치 선택 로직을 추가할 수 있습니다.
               },
             ),
@@ -84,6 +92,8 @@ void _showlocationBottomSheet(BuildContext context) {
     },
   );
 }
+
+
 
 class _FoodLocationState extends State<FoodLocation> {
   @override
@@ -107,14 +117,19 @@ class _FoodLocationState extends State<FoodLocation> {
           height: 40,
           width: 200,
           child: Center(
-            child: Text(
-        //store_address*************************************
-              "서울시 강남구",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
+            child: FutureBuilder(
+              future: getUserLocation(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                return Text(
+                  //store_address*************************************
+                  "서울시 ${snapshot.data}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                );
+              },
             ),
           ),
         ),

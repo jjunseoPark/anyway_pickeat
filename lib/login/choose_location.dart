@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pickeat/const/color.dart';
+import 'package:pickeat/function/user_activity.dart';
 
 class ChooseLocation extends StatefulWidget {
   const ChooseLocation({super.key});
@@ -12,7 +14,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
   final List<String> locations = [
     '서울시 강남구',
     '서울시 관악구',
-    '서울시 마포구',
+    '서울시 서대문구',
   ];
 
   String? selectedLocation;
@@ -70,8 +72,17 @@ class _ChooseLocationState extends State<ChooseLocation> {
                                   ? Icon(Icons.check, color: picketColor)
                                   : null,
                               onTap: () {
-                                setState(() {
-                                  selectedLocation = locations[index];
+                                setState(() async {
+                                  switch (index) {
+                                    case 0:
+                                      await setUserActivity("Gangnam");
+                                    case 1:
+                                      await setUserActivity("Gwanak");
+                                    case 2:
+                                      await setUserActivity("Sinchon");
+                                  }
+
+                                  context.push('/login');
                                 });
                               },
                             );
