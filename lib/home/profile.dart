@@ -128,18 +128,37 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () {
-                    launchURL("http://pf.kakao.com/_IHxayG/chat"); // 회원 탈퇴 URL로 변경
-                  },
-                  child: Text(
-                    "계정 삭제하기",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                      decoration: TextDecoration.underline,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        launchURL("http://pf.kakao.com/_IHxayG/chat"); // 회원 탈퇴 URL로 변경
+                      },
+                      child: Text(
+                        "계정 삭제하기",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(width: 10,),
+                    GestureDetector(
+                      onTap: () {
+                        launchURL("http://pf.kakao.com/_IHxayG/chat"); // 회원 탈퇴 URL로 변경
+                      },
+                      child: Text(
+                        "문의하기",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

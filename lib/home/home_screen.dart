@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pickeat/home/food_slide.dart';
 
 import '../enum/location.dart';
@@ -8,7 +9,7 @@ import '../model/shops.dart';
 
 class HomeScreen extends StatefulWidget {
 
-  final String location;
+  final String? location;
 
   const HomeScreen({super.key, required this.location});
 
@@ -22,6 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final db = FirebaseFirestore.instance;
 
   Future<List<Shop>> initialFireStore() async {
+
+    if (widget.location == null) {
+      context.go('/login');
+    }
 
     var shopDB = await db.collection("store_db_${widget.location}").get();
     for (var shop in shopDB.docs) {

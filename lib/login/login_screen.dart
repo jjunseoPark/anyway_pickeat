@@ -118,6 +118,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 } else if (snapshot.hasError) {
                   return Text('User Activity Error');
                 } else {
+
+                  if (snapshot.data == null) {
+                    context.go('/login');
+                  }
+
                   return HomeScreen(location: snapshot.data);
                 }
               },
