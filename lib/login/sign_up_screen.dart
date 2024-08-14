@@ -254,11 +254,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 SnackBar(content: Text("회원가입 성공")),
                               );
 
-                              Analytics_config().signup();
+                              await Analytics_config().signup();
 
                               context.pop();
-
                               context.go('/choose_location');
+                              context.pop();
                             }
                           } else {
                             if (context.mounted) {
