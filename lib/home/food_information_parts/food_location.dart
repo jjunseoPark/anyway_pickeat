@@ -8,7 +8,7 @@ import '../profile.dart';
 class FoodLocation extends StatefulWidget {
   Shop shop;
 
-  FoodLocation({required this.shop,super.key});
+  FoodLocation({required this.shop, super.key});
 
   @override
   State<FoodLocation> createState() => _FoodLocationState();
@@ -42,11 +42,11 @@ void _showlocationBottomSheet(BuildContext context) {
             ),
             ListTile(
               leading: Icon(Icons.location_on),
-              title: Text('서울시 강남구',
+              title: Text(
+                '서울시 강남구',
                 style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w500
-                ),
+                    fontWeight: FontWeight.w500),
               ),
               onTap: () {
                 setUserActivity("Gangnam");
@@ -57,7 +57,8 @@ void _showlocationBottomSheet(BuildContext context) {
             ),
             ListTile(
               leading: Icon(Icons.location_on),
-              title: Text('서울시 관악구',
+              title: Text(
+                '서울시 관악구',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -72,7 +73,8 @@ void _showlocationBottomSheet(BuildContext context) {
             ),
             ListTile(
               leading: Icon(Icons.location_on),
-              title: Text('서울시 서대문구',
+              title: Text(
+                '서울시 서대문구',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -93,20 +95,21 @@ void _showlocationBottomSheet(BuildContext context) {
   );
 }
 
-
-
 class _FoodLocationState extends State<FoodLocation> {
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          onPressed: () => _showlocationBottomSheet(context),
-          icon: Icon(
-            Icons.location_on_outlined,
-            size: 35,
-            color: Colors.white,
+        InkWell(
+          onTap: () => _showlocationBottomSheet(context),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.location_on_outlined,
+              size: 35,
+              color: Colors.white,
+            ),
           ),
         ),
         Container(
@@ -133,23 +136,20 @@ class _FoodLocationState extends State<FoodLocation> {
             ),
           ),
         ),
-        IconButton(
-          icon: Icon(
-            Icons.person_outline,
-            size: 35,
-            color: Colors.white,
-          ),
-          onPressed: () {
+        InkWell(
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ProfileScreen()), // ProfileScreen은 profile.dart에서 정의된 화면 클래스
             );
           },
-          visualDensity: VisualDensity.compact,
-          padding: EdgeInsets.zero,
-          constraints: BoxConstraints(
-            minHeight: 0,
-            minWidth: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.person_outline,
+              size: 35,
+              color: Colors.white,
+            ),
           ),
         ),
       ],
