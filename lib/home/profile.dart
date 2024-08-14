@@ -174,6 +174,7 @@ class ProfileScreen extends StatelessWidget {
                             await FirebaseAuth.instance.signOut();
                             Navigator.of(context).pop();
                             context.go('/login');
+                            Navigator.of(context).pop();
                           } else {
                             Navigator.of(context).pop();
                             ScaffoldMessenger.of(context).showSnackBar(
