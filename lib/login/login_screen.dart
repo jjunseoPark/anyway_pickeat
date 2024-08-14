@@ -50,39 +50,55 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<UserCredential?> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        // 사용자가 로그인 창에서 '취소'를 선택했을 때
+        return null;
+      }
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      final GoogleSignInAuthentication? googleAuth =
+      await googleUser.authentication;
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      print('Google Sign-In failed: $e');
+      return null;
+    }
   }
 
   Future<UserCredential?> signInWithApple() async {
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-    );
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
 
-    final oauthCredential = OAuthProvider("apple.com").credential(
-      idToken: appleCredential.identityToken,
-      accessToken: appleCredential.authorizationCode,
-    );
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
 
-    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+    } catch (e) {
+      print('Apple Sign-In failed: $e');
+      return null;
+    }
   }
 
   Future<UserCredential?> signInAnonymous() async {
     try {
       final anonymousCredential =
-          await FirebaseAuth.instance.signInAnonymously();
+      await FirebaseAuth.instance.signInAnonymously();
       print("Signed in with temporary account.");
+      return anonymousCredential;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "operation-not-allowed":
@@ -91,6 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
         default:
           print("Unknown error.");
       }
+      return null;
     }
   }
 
@@ -110,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
             //user activity 받아서 화면 보여줌 (강남, 신촌, 관악 중 유저가 선택한 것을 불러옴)
             return FutureBuilder(
               future: getUserActivity(),
-              builder: (BuildContext context, AsyncSnapshot snapshot){
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData == false) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -118,7 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 } else if (snapshot.hasError) {
                   return Text('User Activity Error');
                 } else {
-
                   if (snapshot.data == null) {
                     context.go('/login');
                   }
@@ -172,13 +188,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           borderSide: BorderSide.none,
                                         ),
                                         labelText: "이메일",
                                         filled: true,
                                         fillColor:
-                                            Color.fromRGBO(155, 155, 155, 0.2),
+                                        Color.fromRGBO(155, 155, 155, 0.2),
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
@@ -196,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                           borderSide: BorderSide.none,
                                         ),
                                         suffixIcon: Icon(
@@ -206,11 +222,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         labelText: "비밀번호",
                                         filled: true,
                                         fillColor:
-                                            Color.fromRGBO(155, 155, 155, 0.2),
+                                        Color.fromRGBO(155, 155, 155, 0.2),
                                       ),
                                       obscureText: true,
                                       keyboardType:
-                                          TextInputType.visiblePassword,
+                                      TextInputType.visiblePassword,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return "비밀번호를 입력하세요.";
@@ -224,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     // 아이디비번 로그인과 간편 로그인 구분선
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "or",
@@ -241,13 +257,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     // 간편 로그인
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: [
                                         //구글 로그인
                                         GestureDetector(
                                           onTap: () async {
                                             final userCredit =
-                                                await signInWithGoogle();
+                                            await signInWithGoogle();
 
                                             if (userCredit == null) {
                                               ScaffoldMessenger.of(context)
@@ -284,7 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           GestureDetector(
                                             onTap: () async {
                                               final result =
-                                                  await signInWithApple();
+                                              await signInWithApple();
                                               if (result != null) {
                                                 if (context.mounted) {
                                                   context.go("/choose_location");
@@ -322,6 +338,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: MaterialButton(
                                 onPressed: () async {
                                   final userCredit = await signInAnonymous();
+
+                                  if (userCredit == null) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text("익명 로그인 실패"),
+                                    ));
+                                    return;
+                                  }
 
                                   if (context.mounted) {
                                     context.go("/choose_location");
