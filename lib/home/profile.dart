@@ -97,12 +97,40 @@ class ProfileScreen extends StatelessWidget {
                 if (user != null && user.isAnonymous)
                   MaterialButton(
                     onPressed: () async {
-                      if (context.mounted) {
-                        context.pop();
-                        context.go('/login');
-                      }
+                      // 로딩 화면 표시
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      );
 
-                      await FirebaseAuth.instance.signOut();
+                      try {
+                        // 로그아웃 처리
+                        await FirebaseAuth.instance.signOut();
+
+                        if (context.mounted) {
+                          // 로딩 화면 닫기
+                          Navigator.of(context).pop();
+
+                          // 로그인 화면으로 이동
+                          context.pop();
+                          context.go('/login');
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          // 로딩 화면 닫기
+                          Navigator.of(context).pop();
+
+                          // 오류 처리
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("로그아웃 실패: $e")),
+                          );
+                        }
+                      }
                     },
                     height: 48,
                     minWidth: double.infinity,
@@ -129,23 +157,42 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
+                  )
+                ,
                 SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        User? user = FirebaseAuth.instance.currentUser;
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        );
 
-                        if (user != null) {
-                          await user.delete();
-                          await FirebaseAuth.instance.signOut();
-                          context.pop();
-                          context.go('/login');
-                        } else {
+                        try {
+                          User? user = FirebaseAuth.instance.currentUser;
+
+                          if (user != null) {
+                            await user.delete();
+                            await FirebaseAuth.instance.signOut();
+                            Navigator.of(context).pop(); // 로딩 다이얼로그 닫기
+                            context.go('/login');
+                          } else {
+                            Navigator.of(context).pop(); // 로딩 다이얼로그 닫기
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('계정 삭제 중 오류가 발생했습니다.')),
+                            );
+                          }
+                        } catch (e) {
+                          Navigator.of(context).pop(); // 로딩 다이얼로그 닫기
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('withdraw Error')),
+                            SnackBar(content: Text('오류: $e')),
                           );
                         }
                       },
@@ -158,16 +205,9 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 5),
-                    Text(
-                      "•",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                        decoration: TextDecoration.none, // 밑줄 제거
-                      ),
+                    SizedBox(
+                      width: 10,
                     ),
-                    SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
                         launchURL("http://pf.kakao.com/_IHxayG/chat");
