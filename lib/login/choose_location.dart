@@ -14,7 +14,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
   final List<String> locations = [
     '서울시 강남구',
     '서울시 관악구',
-    '서울시 서대문구(신촌)ㅓ',
+    '서울시 서대문구(신촌)',
   ];
 
   String? selectedLocation;
