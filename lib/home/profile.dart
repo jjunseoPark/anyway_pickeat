@@ -97,7 +97,6 @@ class ProfileScreen extends StatelessWidget {
                 if (user != null && user.isAnonymous)
                   MaterialButton(
                     onPressed: () async {
-                      // 로딩 화면 표시
                       showDialog(
                         context: context,
                         barrierDismissible: false,
@@ -109,23 +108,16 @@ class ProfileScreen extends StatelessWidget {
                       );
 
                       try {
-                        // 로그아웃 처리
                         await FirebaseAuth.instance.signOut();
 
                         if (context.mounted) {
-                          // 로딩 화면 닫기
                           Navigator.of(context).pop();
-
-                          // 로그인 화면으로 이동
                           context.pop();
                           context.go('/login');
                         }
                       } catch (e) {
                         if (context.mounted) {
-                          // 로딩 화면 닫기
                           Navigator.of(context).pop();
-
-                          // 오류 처리
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("로그아웃 실패: $e")),
                           );
@@ -157,13 +149,12 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
-                ,
-                SizedBox(height: 16),
+                  ),
+                SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    GestureDetector(
+                    InkWell(
                       onTap: () async {
                         showDialog(
                           context: context,
@@ -181,43 +172,59 @@ class ProfileScreen extends StatelessWidget {
                           if (user != null) {
                             await user.delete();
                             await FirebaseAuth.instance.signOut();
-                            Navigator.of(context).pop(); // 로딩 다이얼로그 닫기
+                            Navigator.of(context).pop();
                             context.go('/login');
                           } else {
-                            Navigator.of(context).pop(); // 로딩 다이얼로그 닫기
+                            Navigator.of(context).pop();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('계정 삭제 중 오류가 발생했습니다.')),
                             );
                           }
                         } catch (e) {
-                          Navigator.of(context).pop(); // 로딩 다이얼로그 닫기
+                          Navigator.of(context).pop();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('오류: $e')),
                           );
                         }
                       },
-                      child: Text(
-                        "계정 삭제하기",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13,
-                          decoration: TextDecoration.underline,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0), // 터치 영역 확장
+                        child: Text(
+                          "계정 삭제하기",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 13,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(
                       width: 10,
                     ),
-                    GestureDetector(
+                    Text(
+                      "•",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
                       onTap: () {
                         launchURL("http://pf.kakao.com/_IHxayG/chat");
                       },
-                      child: Text(
-                        "문의하기",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13,
-                          decoration: TextDecoration.underline,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0), // 터치 영역 확장
+                        child: Text(
+                          "문의하기",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 13,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ),
