@@ -42,26 +42,27 @@ class _FoodSidebarState extends State<FoodSidebar> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                icon: Icon(
-                  _isFavorited ? Icons.favorite : Icons.favorite_border,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                onPressed: _toggleFavorite,
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                constraints: BoxConstraints(
-                  minHeight: 0,
-                  minWidth: 0,
-                ),
-              ),
-              Text(
-                '좋아요',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+              InkWell(
+                onTap: _toggleFavorite,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0), // 터치 영역을 넓히기 위해 padding 추가
+                  child: Column(
+                    children: [
+                      Icon(
+                        _isFavorited ? Icons.favorite : Icons.favorite_border,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        '좋아요',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 //               SizedBox(height: 20),
@@ -91,18 +92,8 @@ class _FoodSidebarState extends State<FoodSidebar> {
 //                 ),
 //               ),
               SizedBox(height: 20),
-              IconButton(
-                icon: Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.rotationY(pi),
-                  child: Icon(
-                    Icons.message,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: () {
-//naverReview_url*************************************
+              InkWell(
+                onTap: () {
                   Analytics_config().click_review(
                     menu_name: widget.shop.menu_name,
                     menu_price: widget.shop.menu_price,
@@ -112,19 +103,29 @@ class _FoodSidebarState extends State<FoodSidebar> {
                   );
                   launchURL(widget.shop.naverReview_url!);
                 },
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                constraints: BoxConstraints(
-                  minHeight: 0,
-                  minWidth: 0,
-                ),
-              ),
-              Text(
-                '리뷰',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0), // 터치 영역을 넓히기 위해 padding 추가
+                  child: Column(
+                    children: [
+                      Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.rotationY(pi),
+                        child: Icon(
+                          Icons.message,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '리뷰',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
