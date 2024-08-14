@@ -74,7 +74,7 @@ void _showlocationBottomSheet(BuildContext context) {
             ListTile(
               leading: Icon(Icons.location_on),
               title: Text(
-                '서울시 서대문구',
+                '서울시 서대문구(신촌)',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,

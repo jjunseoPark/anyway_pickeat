@@ -111,7 +111,7 @@ class _FoodSidebarState extends State<FoodSidebar> {
                         alignment: Alignment.center,
                         transform: Matrix4.rotationY(pi),
                         child: Icon(
-                          Icons.message,
+                          Icons.web,
                           size: 30,
                           color: Colors.white,
                         ),

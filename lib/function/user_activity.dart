@@ -49,8 +49,8 @@ Future<String> getUserLocation() async {
   }
 
   switch (location) {
-    case "Gangnam": krLocation = "강남";
-    case "Gwanak": krLocation = "관악";
+    case "Gangnam": krLocation = "강남구";
+    case "Gwanak": krLocation = "관악구";
     case "Sinchon": krLocation = "서대문구";
   }
 

@@ -31,7 +31,8 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("내 프로필",
+                  Text(
+                    "내 프로필",
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 30,
@@ -58,86 +59,88 @@ class ProfileScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                if (user != null && !user.isAnonymous)MaterialButton(
-                  onPressed: () async {
-                    if (context.mounted) {
-                      context.pop();
-                      context.go('/login');
-                    }
-                    await FirebaseAuth.instance.signOut();
-                  },
-                  height: 48,
-                  minWidth: double.infinity,
-                  color: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Logout",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                if (user != null && !user.isAnonymous)
+                  MaterialButton(
+                    onPressed: () async {
+                      if (context.mounted) {
+                        context.pop();
+                        context.go('/login');
+                      }
+                      await FirebaseAuth.instance.signOut();
+                    },
+                    height: 48,
+                    minWidth: double.infinity,
+                    color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Logout",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                    ],
+                        SizedBox(width: 10),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                if (user != null && user.isAnonymous)MaterialButton(
-                  onPressed: () async {
-                    if (context.mounted) {
-                      context.pop();
-                      context.go('/login');
-                    }
+                if (user != null && user.isAnonymous)
+                  MaterialButton(
+                    onPressed: () async {
+                      if (context.mounted) {
+                        context.pop();
+                        context.go('/login');
+                      }
 
-                    await FirebaseAuth.instance.signOut();
-                  },
-                  height: 48,
-                  minWidth: double.infinity,
-                  color: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "회원가입",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                      await FirebaseAuth.instance.signOut();
+                    },
+                    height: 48,
+                    minWidth: double.infinity,
+                    color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "회원가입",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                    ],
+                        SizedBox(width: 10),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () async{
+                      onTap: () async {
                         User? user = FirebaseAuth.instance.currentUser;
 
                         if (user != null) {
                           await user.delete();
-                          await  FirebaseAuth.instance.signOut();
+                          await FirebaseAuth.instance.signOut();
                           context.pop();
                           context.go('/login');
                         } else {
@@ -145,7 +148,6 @@ class ProfileScreen extends StatelessWidget {
                             SnackBar(content: Text('withdraw Error')),
                           );
                         }
-
                       },
                       child: Text(
                         "계정 삭제하기",
@@ -156,7 +158,16 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 5),
+                    Text(
+                      "•",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        decoration: TextDecoration.none, // 밑줄 제거
+                      ),
+                    ),
+                    SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
                         launchURL("http://pf.kakao.com/_IHxayG/chat");
@@ -181,7 +192,4 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-
-Future<void> deleteID() async {
-
-}
+Future<void> deleteID() async {}
