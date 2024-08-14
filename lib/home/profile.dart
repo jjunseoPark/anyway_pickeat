@@ -132,8 +132,20 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        launchURL("http://pf.kakao.com/_IHxayG/chat"); // 회원 탈퇴 URL로 변경
+                      onTap: () async{
+                        User? user = FirebaseAuth.instance.currentUser;
+
+                        if (user != null) {
+                          await user.delete();
+                          await  FirebaseAuth.instance.signOut();
+                          context.pop();
+                          context.go('/login');
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('withdraw Error')),
+                          );
+                        }
+
                       },
                       child: Text(
                         "계정 삭제하기",
@@ -147,7 +159,7 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(width: 10,),
                     GestureDetector(
                       onTap: () {
-                        launchURL("http://pf.kakao.com/_IHxayG/chat"); // 회원 탈퇴 URL로 변경
+                        launchURL("http://pf.kakao.com/_IHxayG/chat");
                       },
                       child: Text(
                         "문의하기",
@@ -167,4 +179,9 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+
+Future<void> deleteID() async {
+
 }
