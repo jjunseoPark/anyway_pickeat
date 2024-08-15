@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:pickeat/function/user_location.dart';
 
 import '../../function/user_activity.dart';
 import '../../model/shops.dart';
@@ -44,9 +47,7 @@ void _showlocationBottomSheet(BuildContext context) {
               leading: Icon(Icons.location_on),
               title: Text(
                 '서울시 강남구',
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
               ),
               onTap: () {
                 setUserActivity("Gangnam");
@@ -87,7 +88,9 @@ void _showlocationBottomSheet(BuildContext context) {
                 // 여기에 지도를 사용한 위치 선택 로직을 추가할 수 있습니다.
               },
             ),
-            SizedBox(height: 20,)
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       );
@@ -96,6 +99,46 @@ void _showlocationBottomSheet(BuildContext context) {
 }
 
 class _FoodLocationState extends State<FoodLocation> {
+  double? latitude;
+  double? longitude;
+  double? shop_latitude;
+  double? shop_longtitude;
+  double? km;
+
+  getGeoData() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('permissions are denied');
+      }
+    }
+
+    Position position = await Geolocator.getCurrentPosition();
+
+    setState(() {
+      latitude = position.latitude.toDouble();
+      longitude = position.longitude.toDouble();
+
+      shop_latitude = widget.shop.store_latitude;
+      shop_longtitude = widget.shop.store_longtitude;
+
+      if (latitude != null) {
+        km = Distance().as(
+            LengthUnit.Kilometer,
+            LatLng(latitude!, longitude!),
+            LatLng(shop_latitude!, shop_longtitude!));
+      }
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getGeoData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -125,7 +168,7 @@ class _FoodLocationState extends State<FoodLocation> {
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 return Text(
                   //store_address*************************************
-                  "서울시 ${snapshot.data}",
+                  "서울시 ${snapshot.data}${km != null ? ' : ${km!.toStringAsFixed(1)} km' : ''}",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -140,7 +183,9 @@ class _FoodLocationState extends State<FoodLocation> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProfileScreen()), // ProfileScreen은 profile.dart에서 정의된 화면 클래스
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ProfileScreen()), // ProfileScreen은 profile.dart에서 정의된 화면 클래스
             );
           },
           child: Padding(

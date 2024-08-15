@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'shops.freezed.dart';
@@ -23,6 +25,8 @@ sealed class Shop with _$Shop {
     String? naverReview_url,
     int? store_count_naver,
     int? store_count_kakao,
+    double? store_latitude,
+    double? store_longtitude,
   }) = _Shop;
 
   factory Shop.fromJson(Map<String, dynamic> json) => _$ShopFromJson(json);

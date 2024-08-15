@@ -36,6 +36,8 @@ mixin _$Shop {
   String? get naverReview_url => throw _privateConstructorUsedError;
   int? get store_count_naver => throw _privateConstructorUsedError;
   int? get store_count_kakao => throw _privateConstructorUsedError;
+  double? get store_latitude => throw _privateConstructorUsedError;
+  double? get store_longtitude => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -63,7 +65,9 @@ abstract class $ShopCopyWith<$Res> {
       String? naver_url,
       String? naverReview_url,
       int? store_count_naver,
-      int? store_count_kakao});
+      int? store_count_kakao,
+      double? store_latitude,
+      double? store_longtitude});
 }
 
 /// @nodoc
@@ -95,6 +99,8 @@ class _$ShopCopyWithImpl<$Res, $Val extends Shop>
     Object? naverReview_url = freezed,
     Object? store_count_naver = freezed,
     Object? store_count_kakao = freezed,
+    Object? store_latitude = freezed,
+    Object? store_longtitude = freezed,
   }) {
     return _then(_value.copyWith(
       menu_id: freezed == menu_id
@@ -161,6 +167,14 @@ class _$ShopCopyWithImpl<$Res, $Val extends Shop>
           ? _value.store_count_kakao
           : store_count_kakao // ignore: cast_nullable_to_non_nullable
               as int?,
+      store_latitude: freezed == store_latitude
+          ? _value.store_latitude
+          : store_latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      store_longtitude: freezed == store_longtitude
+          ? _value.store_longtitude
+          : store_longtitude // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -188,7 +202,9 @@ abstract class _$$ShopImplCopyWith<$Res> implements $ShopCopyWith<$Res> {
       String? naver_url,
       String? naverReview_url,
       int? store_count_naver,
-      int? store_count_kakao});
+      int? store_count_kakao,
+      double? store_latitude,
+      double? store_longtitude});
 }
 
 /// @nodoc
@@ -217,6 +233,8 @@ class __$$ShopImplCopyWithImpl<$Res>
     Object? naverReview_url = freezed,
     Object? store_count_naver = freezed,
     Object? store_count_kakao = freezed,
+    Object? store_latitude = freezed,
+    Object? store_longtitude = freezed,
   }) {
     return _then(_$ShopImpl(
       menu_id: freezed == menu_id
@@ -283,6 +301,14 @@ class __$$ShopImplCopyWithImpl<$Res>
           ? _value.store_count_kakao
           : store_count_kakao // ignore: cast_nullable_to_non_nullable
               as int?,
+      store_latitude: freezed == store_latitude
+          ? _value.store_latitude
+          : store_latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      store_longtitude: freezed == store_longtitude
+          ? _value.store_longtitude
+          : store_longtitude // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -306,7 +332,9 @@ class _$ShopImpl implements _Shop {
       this.naver_url,
       this.naverReview_url,
       this.store_count_naver,
-      this.store_count_kakao});
+      this.store_count_kakao,
+      this.store_latitude,
+      this.store_longtitude});
 
   factory _$ShopImpl.fromJson(Map<String, dynamic> json) =>
       _$$ShopImplFromJson(json);
@@ -343,10 +371,14 @@ class _$ShopImpl implements _Shop {
   final int? store_count_naver;
   @override
   final int? store_count_kakao;
+  @override
+  final double? store_latitude;
+  @override
+  final double? store_longtitude;
 
   @override
   String toString() {
-    return 'Shop(menu_id: $menu_id, menu_name: $menu_name, menu_price: $menu_price, store_name: $store_name, store_address: $store_address, store_rating_kakao: $store_rating_kakao, store_rating_naver: $store_rating_naver, yogiyo_url: $yogiyo_url, coupang_url: $coupang_url, baemin_url: $baemin_url, appleMap_url: $appleMap_url, kakaoMap_url: $kakaoMap_url, naver_url: $naver_url, naverReview_url: $naverReview_url, store_count_naver: $store_count_naver, store_count_kakao: $store_count_kakao)';
+    return 'Shop(menu_id: $menu_id, menu_name: $menu_name, menu_price: $menu_price, store_name: $store_name, store_address: $store_address, store_rating_kakao: $store_rating_kakao, store_rating_naver: $store_rating_naver, yogiyo_url: $yogiyo_url, coupang_url: $coupang_url, baemin_url: $baemin_url, appleMap_url: $appleMap_url, kakaoMap_url: $kakaoMap_url, naver_url: $naver_url, naverReview_url: $naverReview_url, store_count_naver: $store_count_naver, store_count_kakao: $store_count_kakao, store_latitude: $store_latitude, store_longtitude: $store_longtitude)';
   }
 
   @override
@@ -384,7 +416,11 @@ class _$ShopImpl implements _Shop {
             (identical(other.store_count_naver, store_count_naver) ||
                 other.store_count_naver == store_count_naver) &&
             (identical(other.store_count_kakao, store_count_kakao) ||
-                other.store_count_kakao == store_count_kakao));
+                other.store_count_kakao == store_count_kakao) &&
+            (identical(other.store_latitude, store_latitude) ||
+                other.store_latitude == store_latitude) &&
+            (identical(other.store_longtitude, store_longtitude) ||
+                other.store_longtitude == store_longtitude));
   }
 
   @JsonKey(ignore: true)
@@ -406,7 +442,9 @@ class _$ShopImpl implements _Shop {
       naver_url,
       naverReview_url,
       store_count_naver,
-      store_count_kakao);
+      store_count_kakao,
+      store_latitude,
+      store_longtitude);
 
   @JsonKey(ignore: true)
   @override
@@ -439,7 +477,9 @@ abstract class _Shop implements Shop {
       final String? naver_url,
       final String? naverReview_url,
       final int? store_count_naver,
-      final int? store_count_kakao}) = _$ShopImpl;
+      final int? store_count_kakao,
+      final double? store_latitude,
+      final double? store_longtitude}) = _$ShopImpl;
 
   factory _Shop.fromJson(Map<String, dynamic> json) = _$ShopImpl.fromJson;
 
@@ -475,6 +515,10 @@ abstract class _Shop implements Shop {
   int? get store_count_naver;
   @override
   int? get store_count_kakao;
+  @override
+  double? get store_latitude;
+  @override
+  double? get store_longtitude;
   @override
   @JsonKey(ignore: true)
   _$$ShopImplCopyWith<_$ShopImpl> get copyWith =>

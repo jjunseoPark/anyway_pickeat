@@ -23,6 +23,8 @@ _$ShopImpl _$$ShopImplFromJson(Map<String, dynamic> json) => _$ShopImpl(
       naverReview_url: json['naverReview_url'] as String?,
       store_count_naver: (json['store_count_naver'] as num?)?.toInt(),
       store_count_kakao: (json['store_count_kakao'] as num?)?.toInt(),
+      store_latitude: (json['store_latitude'] as num?)?.toDouble(),
+      store_longtitude: (json['store_longtitude'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$ShopImplToJson(_$ShopImpl instance) =>
@@ -43,4 +45,6 @@ Map<String, dynamic> _$$ShopImplToJson(_$ShopImpl instance) =>
       'naverReview_url': instance.naverReview_url,
       'store_count_naver': instance.store_count_naver,
       'store_count_kakao': instance.store_count_kakao,
+      'store_latitude': instance.store_latitude,
+      'store_longtitude': instance.store_longtitude,
     };
