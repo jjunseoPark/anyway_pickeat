@@ -22,7 +22,6 @@ void main() async {
 
   Analytics_config().init();
 
-  getFcmToken();
   initFCM();
   terminateFCM();
 

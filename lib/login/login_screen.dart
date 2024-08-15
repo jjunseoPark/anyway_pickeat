@@ -50,17 +50,30 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<UserCredential?> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      if (googleUser == null) {
+        return null;
+      } else {
+        final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+
+        return await FirebaseAuth.instance.signInWithCredential(credential);
+      }
+
+    } catch (e) {
+      print('Error during Google Sign-In: $e');
+      return null; // or handle the error appropriately
+    }
   }
+
 
   Future<UserCredential?> signInWithApple() async {
     final appleCredential = await SignInWithApple.getAppleIDCredential(
