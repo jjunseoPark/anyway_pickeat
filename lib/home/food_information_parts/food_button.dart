@@ -1,26 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pickeat/const/url_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:pickeat/model/shops.dart';
 
 import '../../const/color.dart';
-import '../../const/launch_url.dart';
 
 class FoodButton extends StatefulWidget {
+  final Shop shop;
 
-  Shop shop;
-
-  FoodButton({required this.shop,super.key});
+  FoodButton({required this.shop, super.key});
 
   @override
   State<FoodButton> createState() => _FoodButtonState();
 }
 
 class _FoodButtonState extends State<FoodButton> {
-
-
-
   void _showDeliveryBottomSheet(BuildContext context) {
     showModalBottomSheet(
       backgroundColor: Colors.white,
@@ -43,18 +38,34 @@ class _FoodButtonState extends State<FoodButton> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xfff6f6f6),),
+                  color: Color(0xfff6f6f6),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      //coupang_url*************************************
-                      if (widget.shop.coupang_url! != "")  UrlButton(type: "배달", image: "assets/image/coupang_logo.png", name: "쿠팡 이츠", url: widget.shop.coupang_url!, shop: widget.shop),
-                      //yogiyo_url*************************************
-                      if (widget.shop.yogiyo_url! != "")  UrlButton(type: "배달", image: "assets/image/yogiyo_logo.png", name: "요기요", url: widget.shop.yogiyo_url!, shop: widget.shop),
-                      //baemin_url*************************************
-                      if (widget.shop.baemin_url! != "") UrlButton(type: "배달",image: "assets/image/baemin_logo.png", name: "배달의 민족", url: widget.shop.baemin_url!, shop: widget.shop),
+                      // coupang_url
+                      if (widget.shop.coupang_url != null && widget.shop.coupang_url!.isNotEmpty)
+                        UrlButton(
+                            type: "배달",
+                            image: "assets/image/coupang_logo.png",
+                            name: "쿠팡 이츠",
+                            url: widget.shop.coupang_url!),
+                      // yogiyo_url
+                      if (widget.shop.yogiyo_url != null && widget.shop.yogiyo_url!.isNotEmpty)
+                        UrlButton(
+                            type: "배달",
+                            image: "assets/image/yogiyo_logo.png",
+                            name: "요기요",
+                            url: widget.shop.yogiyo_url!),
+                      // baemin_url
+                      if (widget.shop.baemin_url != null && widget.shop.baemin_url!.isNotEmpty)
+                        UrlButton(
+                            type: "배달",
+                            image: "assets/image/baemin_logo.png",
+                            name: "배달의 민족",
+                            url: widget.shop.baemin_url!),
                     ],
                   ),
                 ),
@@ -88,18 +99,36 @@ class _FoodButtonState extends State<FoodButton> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xfff6f6f6),),
+                  color: Color(0xfff6f6f6),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      //naver_url*************************************
-                      if (widget.shop.naver_url! != "")  UrlButton(type: "지도", image: "assets/image/Naver_logo.png", name: "네이버지도", url: widget.shop.naver_url!, shop: widget.shop),
-                      //kakaoMap_url*************************************
-                      if (widget.shop.kakaoMap_url! != "") UrlButton(type: "지도", image: "assets/image/Kakao_logo.png", name: "카카오지도", url: widget.shop.kakaoMap_url!, shop: widget.shop),
-                      //AppleMap_url*************************************
-                      if (widget.shop.kakaoMap_url! != "" && Platform.isIOS) UrlButton(type: "지도", image: "assets/image/AppleMap_logo.png", name: "애플지도", url: widget.shop.appleMap_url!, shop: widget.shop),
+                      // naver_url
+                      if (widget.shop.naver_url != null && widget.shop.naver_url!.isNotEmpty)
+                        UrlButton(
+                            type: "지도",
+                            image: "assets/image/Naver_logo.png",
+                            name: "네이버지도",
+                            url: widget.shop.naver_url!),
+                      // kakaoMap_url
+                      if (widget.shop.kakaoMap_url != null && widget.shop.kakaoMap_url!.isNotEmpty)
+                        UrlButton(
+                            type: "지도",
+                            image: "assets/image/Kakao_logo.png",
+                            name: "카카오지도",
+                            url: widget.shop.kakaoMap_url!),
+                      // AppleMap_url
+                      if (widget.shop.appleMap_url != null &&
+                          widget.shop.appleMap_url!.isNotEmpty &&
+                          Platform.isIOS)
+                        UrlButton(
+                            type: "지도",
+                            image: "assets/image/AppleMap_logo.png",
+                            name: "애플지도",
+                            url: widget.shop.appleMap_url!),
                     ],
                   ),
                 ),
@@ -153,6 +182,48 @@ class _FoodButtonState extends State<FoodButton> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class UrlButton extends StatelessWidget {
+  final String type;
+  final String image;
+  final String name;
+  final String url;
+
+  UrlButton({
+    required this.type,
+    required this.image,
+    required this.name,
+    required this.url,
+  });
+
+  Future<void> _launchURL() async {
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: false, forceWebView: false);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _launchURL,
+      child: Column(
+        children: [
+          Image.asset(image, width: 50, height: 50),
+          SizedBox(height: 10),
+          Text(
+            name,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
