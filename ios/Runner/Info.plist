@@ -49,9 +49,11 @@
    <string>App would like to use tracking usage description for improving the customer experience</string>
 
    <key>NSLocationWhenInUseUsageDescription</key>
-   <string>This app needs access to location when open.</string>
+   <string>사용자의 현재 위치를 사용하여 방문 가능한 가게를 보여드립니다. 이 기능은 사용자에게 더 편리한 경험을 제공합니다.</string>
    <key>NSLocationAlwaysUsageDescription</key>
-   <string>This app needs access to location when in the background.</string>
+   <string>사용자의 현재 위치를 사용하여 방문 가능한 가게를 보여드립니다. 이 기능은 사용자에게 더 편리한 경험을 제공합니다.</string>
+   <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+   <string>사용자의 현재 위치를 사용하여 방문 가능한 가게를 보여드립니다. 이 기능은 사용자에게 더 편리한 경험을 제공합니다.</string>
 
    <key>UIApplicationSupportsIndirectInputEvents</key>
    <true/>
@@ -80,7 +82,6 @@
       <string>UIInterfaceOrientationLandscapeRight</string>
    </array>
 
-   <!-- 추가된 부분 -->
    <key>LSApplicationQueriesSchemes</key>
    <array>
       <string>http</string>

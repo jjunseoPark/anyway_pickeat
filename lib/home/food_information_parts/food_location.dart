@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:pickeat/function/user_location.dart';
 
 import '../../function/user_activity.dart';
 import '../../model/shops.dart';
@@ -125,7 +124,7 @@ class _FoodLocationState extends State<FoodLocation> {
 
       if (latitude != null) {
         km = Distance().as(
-            LengthUnit.Kilometer,
+            LengthUnit.Meter,
             LatLng(latitude!, longitude!),
             LatLng(shop_latitude!, shop_longtitude!));
       }
@@ -168,7 +167,7 @@ class _FoodLocationState extends State<FoodLocation> {
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 return Text(
                   //store_address*************************************
-                  "서울시 ${snapshot.data}${km != null ? ' : ${km!.toStringAsFixed(1)} km' : ''}",
+                  "서울시 ${snapshot.data}${km != null ? ' : ${(km!/1000.0).toStringAsFixed(1)} km' : ''}",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
