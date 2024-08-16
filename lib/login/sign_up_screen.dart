@@ -143,28 +143,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(
                             height: 15,
                           ),
-                          TextFormField(
-                            controller: nicknameTextController,
-                            decoration: InputDecoration(
-                              suffixIcon: Icon(
-                                Icons.person,
-                                color: Colors.grey,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
-                              ),
-                              labelText: "닉네임",
-                              filled: true,
-                              fillColor: Color.fromRGBO(155, 155, 155, 0.2),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "닉네임을 입력하세요.";
-                              }
-                              return null;
-                            },
-                          ),
+                          // TextFormField(
+                          //   controller: nicknameTextController,
+                          //   decoration: InputDecoration(
+                          //     suffixIcon: Icon(
+                          //       Icons.person,
+                          //       color: Colors.grey,
+                          //     ),
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //       borderSide: BorderSide.none,
+                          //     ),
+                          //     labelText: "닉네임",
+                          //     filled: true,
+                          //     fillColor: Color.fromRGBO(155, 155, 155, 0.2),
+                          //   ),
+                          //   validator: (value) {
+                          //     if (value == null || value.isEmpty) {
+                          //       return "닉네임을 입력하세요.";
+                          //     }
+                          //     return null;
+                          //   },
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -243,26 +243,79 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (_formKey.currentState!.validate() && _agreeToTerms) {
                           _formKey.currentState!.save();
 
-                          final result = await signUp(
-                            emailTextController.text.trim(),
-                            pwdTextController.text.trim(),
+                          // 로딩 화면 표시
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
                           );
 
-                          if (result) {
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("회원가입 성공")),
-                              );
+                          try {
+                            final result = await signUp(
+                              emailTextController.text.trim(),
+                              pwdTextController.text.trim(),
+                            );
 
-                              Analytics_config().signup();
+                            if (result) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("회원가입 성공")),
+                                );
 
-                              context.go("/login");
+                                await Analytics_config().signup();
+
+                                Navigator.of(context).pop(); // 로딩 화면 닫기
+                                context.go('/choose_location');
+                              }
+                            } else {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("회원가입 실패")),
+                                );
+                              }
                             }
-                          } else {
+                          } on FirebaseAuthException catch (e) {
+                            Navigator.of(context).pop(); // 로딩 화면 닫기
+
+                            String errorMessage;
+
+                            switch (e.code) {
+                              case 'email-already-in-use':
+                                errorMessage = '이미 사용 중인 이메일입니다.';
+                                break;
+                              case 'invalid-email':
+                                errorMessage = '유효하지 않은 이메일 형식입니다.';
+                                break;
+                              case 'weak-password':
+                                errorMessage = '비밀번호가 너무 약합니다.';
+                                break;
+                              case 'operation-not-allowed':
+                                errorMessage = '이 작업은 허용되지 않습니다.';
+                                break;
+                              default:
+                                errorMessage = '알 수 없는 오류가 발생했습니다.';
+                            }
+
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("회원가입 실패")),
+                                SnackBar(content: Text(errorMessage)),
                               );
+                            }
+                          } catch (e) {
+                            Navigator.of(context).pop(); // 로딩 화면 닫기
+
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("오류: $e")),
+                              );
+                            }
+                          } finally {
+                            if (context.mounted) {
+                              Navigator.of(context).pop(); // 로딩 화면 닫기
                             }
                           }
                         } else {
@@ -283,14 +336,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Text(
                             "시작하기",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          SizedBox(width: 10),
                           Icon(
                             Icons.arrow_forward_ios_rounded,
                             color: Colors.white,
@@ -301,7 +352,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        context.go("/login"); // 로그인 화면으로 이동
+                        context.pop(); // 로그인 화면으로 이동
                       },
                       child: Text(
                         "이미 계정이 있으신가요?",

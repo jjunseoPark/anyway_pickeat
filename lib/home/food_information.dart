@@ -3,6 +3,7 @@ import 'package:pickeat/home/food_information_parts/food_button.dart';
 import 'package:pickeat/home/food_information_parts/food_core_information.dart';
 import 'package:pickeat/home/food_information_parts/food_location.dart';
 import 'package:pickeat/home/food_information_parts/food_sidebar.dart';
+import 'package:pickeat/home/food_information_parts/food_topbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../const/color.dart';
 import 'dart:math' as math;
@@ -37,7 +38,11 @@ class _FoodInformationState extends State<FoodInformation> {
         child: Column(
           children: [
             //위치표시
+            //FoodLocation(shop: widget.shop),
+
+            //topbar(지역선택, 프로필)
             FoodLocation(shop: widget.shop),
+
             //빈공간
             Expanded(
               child: Container(),

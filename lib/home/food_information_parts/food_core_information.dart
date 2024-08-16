@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:pickeat/const/detect_zero.dart';
 import 'package:pickeat/model/shops.dart';
 
-import '../../const/color.dart';
-
 class FoodCoreInformation extends StatefulWidget {
 
   Shop shop;
@@ -187,7 +185,7 @@ class _FoodCoreInformationState extends State<FoodCoreInformation> {
                                   5, 0, 0, 0),
                               child: Text(
 //store_count_naver*************************************
-                                "(${detectZero(widget.shop.store_rating_naver!)})",
+                                "(${detectZero(widget.shop.store_count_naver!)})",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,

@@ -17,11 +17,14 @@ _$ShopImpl _$$ShopImplFromJson(Map<String, dynamic> json) => _$ShopImpl(
       yogiyo_url: json['yogiyo_url'] as String?,
       coupang_url: json['coupang_url'] as String?,
       baemin_url: json['baemin_url'] as String?,
+      appleMap_url: json['appleMap_url'] as String?,
       kakaoMap_url: json['kakaoMap_url'] as String?,
       naver_url: json['naver_url'] as String?,
       naverReview_url: json['naverReview_url'] as String?,
       store_count_naver: (json['store_count_naver'] as num?)?.toInt(),
       store_count_kakao: (json['store_count_kakao'] as num?)?.toInt(),
+      store_latitude: (json['store_latitude'] as num?)?.toDouble(),
+      store_longtitude: (json['store_longtitude'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$ShopImplToJson(_$ShopImpl instance) =>
@@ -36,9 +39,12 @@ Map<String, dynamic> _$$ShopImplToJson(_$ShopImpl instance) =>
       'yogiyo_url': instance.yogiyo_url,
       'coupang_url': instance.coupang_url,
       'baemin_url': instance.baemin_url,
+      'appleMap_url': instance.appleMap_url,
       'kakaoMap_url': instance.kakaoMap_url,
       'naver_url': instance.naver_url,
       'naverReview_url': instance.naverReview_url,
       'store_count_naver': instance.store_count_naver,
       'store_count_kakao': instance.store_count_kakao,
+      'store_latitude': instance.store_latitude,
+      'store_longtitude': instance.store_longtitude,
     };

@@ -51,6 +51,9 @@ class _FoodPlayerState extends State<FoodPlayer> {
 
     videoController =
         VideoPlayerController.networkUrl(Uri.parse(pathReference));
+    
+    videoController.setVolume(0.0);
+    
     await Future.wait([videoController.initialize()]);
     createChewieController();
     setState(() {});
