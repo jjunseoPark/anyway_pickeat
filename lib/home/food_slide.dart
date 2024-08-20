@@ -28,7 +28,7 @@ class _FoodSlideState extends State<FoodSlide> {
 
   @override
   void dispose() {
-    verticalPageController;
+    verticalPageController.dispose();
     super.dispose();
   }
 
