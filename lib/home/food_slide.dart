@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:amplitude_flutter/identify.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:pickeat/analytic_config.dart';
 import '../model/shops.dart';
@@ -20,9 +21,26 @@ class _FoodSlideState extends State<FoodSlide> {
   final PageController verticalPageController =
       PageController(initialPage: 1000, viewportFraction: 1.0);
 
+  String _authStatus = 'Unknown';
+
+  Future<void> initPlugin() async {
+    final TrackingStatus status =
+    await AppTrackingTransparency.trackingAuthorizationStatus;
+    setState(() => _authStatus = '$status');
+
+    if (status == TrackingStatus.notDetermined) {
+      final TrackingStatus status =
+      await AppTrackingTransparency.requestTrackingAuthorization();
+      setState(() => _authStatus = '$status');
+    }
+
+    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+  }
+
   @override
   void initState() {
     super.initState();
+    initPlugin();
     widget.shops.shuffle();
   }
 

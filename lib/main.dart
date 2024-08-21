@@ -37,26 +37,10 @@ class PickeatApp extends StatefulWidget {
 
 class _PickeatAppState extends State<PickeatApp> {
   //app tracking transparency
-  String _authStatus = 'Unknown';
-
-  Future<void> initPlugin() async {
-    final TrackingStatus status =
-        await AppTrackingTransparency.trackingAuthorizationStatus;
-    setState(() => _authStatus = '$status');
-
-    if (status == TrackingStatus.notDetermined) {
-      final TrackingStatus status =
-          await AppTrackingTransparency.requestTrackingAuthorization();
-      setState(() => _authStatus = '$status');
-    }
-
-    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
-  }
 
   @override
   void initState() {
     super.initState();
-    initPlugin();
   }
 
   @override
