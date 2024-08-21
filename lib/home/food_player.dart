@@ -82,40 +82,43 @@ class _FoodPlayerState extends State<FoodPlayer> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: chewieController != null &&
-          chewieController!.videoPlayerController.value.isInitialized
-          ? AspectRatio(
-        aspectRatio: MediaQuery.of(context).size.aspectRatio,
-        child: ClipRect(
-          child: OverflowBox(
-            alignment: Alignment.center,
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width /
-                    chewieController!
-                        .videoPlayerController.value.aspectRatio,
-                child: Chewie(
-                  controller: chewieController!,
+      child: Stack(
+        children: [
+          ClipRect(
+            child: OverflowBox(
+              alignment: Alignment.center,
+              child: AspectRatio(
+                aspectRatio: MediaQuery.of(context).size.aspectRatio,
+                child: Image.asset(
+                  'assets/menu_thumb/${widget.shop.menu_id}.png',
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
-        ),
-      )
-          : ClipRect(
-        child: OverflowBox(
-          alignment: Alignment.center,
-          child: AspectRatio(
-            aspectRatio: MediaQuery.of(context).size.aspectRatio,
-            child: Image.asset(
-              'assets/menu_thumb/${widget.shop.menu_id}.png',
-              fit: BoxFit.cover,
+          if (chewieController != null &&
+              chewieController!.videoPlayerController.value.isInitialized)
+            AspectRatio(
+              aspectRatio: MediaQuery.of(context).size.aspectRatio,
+              child: ClipRect(
+                child: OverflowBox(
+                  alignment: Alignment.center,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width/ chewieController!.videoPlayerController.value.aspectRatio,
+                      child: Chewie(
+                        controller: chewieController!,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
+        ],
       ),
     );
   }
 }
+
