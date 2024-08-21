@@ -7,8 +7,7 @@ import 'package:video_player/video_player.dart';
 import '../analytic_config.dart';
 
 class FoodPlayer extends StatefulWidget {
-
-  Shop shop;
+  final Shop shop;
 
   FoodPlayer({super.key, required this.shop});
 
@@ -17,7 +16,6 @@ class FoodPlayer extends StatefulWidget {
 }
 
 class _FoodPlayerState extends State<FoodPlayer> {
-
   late VideoPlayerController videoController;
   ChewieController? chewieController;
 
@@ -51,10 +49,10 @@ class _FoodPlayerState extends State<FoodPlayer> {
 
     videoController =
         VideoPlayerController.networkUrl(Uri.parse(pathReference));
-    
+
     videoController.setVolume(0.0);
-    
-    await Future.wait([videoController.initialize()]);
+
+    await videoController.initialize();
     createChewieController();
     setState(() {});
   }
@@ -67,6 +65,14 @@ class _FoodPlayerState extends State<FoodPlayer> {
       showControls: false,
       aspectRatio: videoController.value.aspectRatio,
     );
+  }
+
+  Future<String> getVideoThumb() async {
+    final pathReference = await storageRef
+        .child("menu_thumb/logo.png")
+        .getDownloadURL();
+
+    return pathReference;
   }
 
   @override
@@ -94,15 +100,28 @@ class _FoodPlayerState extends State<FoodPlayer> {
           ),
         ),
       )
-          : const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(
-            height: 20,
-          ),
-          Text("loading"),
-        ],
+          : FutureBuilder<String>(
+        future: getVideoThumb(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return const Text("Error loading thumbnail");
+          } else if (snapshot.hasData) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.network(snapshot.data!),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text("loading"),
+              ],
+            );
+          } else {
+            return const Text("No thumbnail available");
+          }
+        },
       ),
     );
   }
