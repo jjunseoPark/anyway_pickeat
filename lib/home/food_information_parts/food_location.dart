@@ -104,33 +104,44 @@ class _FoodLocationState extends State<FoodLocation> {
   double? shop_longtitude;
   double? km;
 
-  getGeoData() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
+  Future<void> getGeoData() async {
+    try {
+      // 위치 권한 확인 및 요청
+      LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('permissions are denied');
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return Future.error('Permissions are denied');
+        }
       }
+
+      // 현재 위치 가져오기
+      Position position = await Geolocator.getCurrentPosition();
+
+      // 위젯이 여전히 mounted 상태일 때만 setState 호출
+      if (mounted) {
+        setState(() {
+          latitude = position.latitude.toDouble();
+          longitude = position.longitude.toDouble();
+
+          shop_latitude = widget.shop.store_latitude;
+          shop_longtitude = widget.shop.store_longtitude;
+
+          if (latitude != null && longitude != null && shop_latitude != null && shop_longtitude != null) {
+            km = Distance().as(
+                LengthUnit.Meter,
+                LatLng(latitude!, longitude!),
+                LatLng(shop_latitude!, shop_longtitude!)
+            );
+          }
+        });
+      }
+    } catch (e) {
+      // 예외 처리
+      print('Error occurred: $e');
     }
-
-    Position position = await Geolocator.getCurrentPosition();
-
-    setState(() {
-      latitude = position.latitude.toDouble();
-      longitude = position.longitude.toDouble();
-
-      shop_latitude = widget.shop.store_latitude;
-      shop_longtitude = widget.shop.store_longtitude;
-
-      if (latitude != null) {
-        km = Distance().as(
-            LengthUnit.Meter,
-            LatLng(latitude!, longitude!),
-            LatLng(shop_latitude!, shop_longtitude!));
-      }
-
-    });
   }
+
 
   @override
   void initState() {

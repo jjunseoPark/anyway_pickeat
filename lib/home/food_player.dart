@@ -9,7 +9,7 @@ import '../analytic_config.dart';
 class FoodPlayer extends StatefulWidget {
   final Shop shop;
 
-  FoodPlayer({super.key, required this.shop});
+  const FoodPlayer({super.key, required this.shop});
 
   @override
   State<FoodPlayer> createState() => _FoodPlayerState();
@@ -27,11 +27,12 @@ class _FoodPlayerState extends State<FoodPlayer> {
     initializePlayer();
 
     Analytics_config().play_video(
-        menu_name: widget.shop.menu_name,
-        menu_price: widget.shop.menu_price,
-        store_rating_naver: widget.shop.store_rating_naver,
-        store_rating_kakao: widget.shop.store_rating_kakao,
-        store_name: widget.shop.store_name);
+      menu_name: widget.shop.menu_name,
+      menu_price: widget.shop.menu_price,
+      store_rating_naver: widget.shop.store_rating_naver,
+      store_rating_kakao: widget.shop.store_rating_kakao,
+      store_name: widget.shop.store_name,
+    );
   }
 
   @override
@@ -41,21 +42,32 @@ class _FoodPlayerState extends State<FoodPlayer> {
     super.dispose();
   }
 
-  // 영상 재생에 필요한 함수
   Future<void> initializePlayer() async {
-    final pathReference = await storageRef
-        .child("menu_video/${widget.shop.menu_id}.mp4")
-        .getDownloadURL();
+    try {
+      final pathReference = await storageRef
+          .child("menu_video/${widget.shop.menu_id}.mp4")
+          .getDownloadURL();
 
-    videoController =
-        VideoPlayerController.networkUrl(Uri.parse(pathReference));
+      videoController =
+          VideoPlayerController.networkUrl(Uri.parse(pathReference));
 
-    videoController.setVolume(0.0);
+      videoController.setVolume(0.0);
 
-    await videoController.initialize();
-    createChewieController();
-    setState(() {});
+      await videoController.initialize();
+      createChewieController();
+
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          chewieController = null;
+        });
+      }
+    }
   }
+
 
   void createChewieController() {
     chewieController = ChewieController(
@@ -65,14 +77,6 @@ class _FoodPlayerState extends State<FoodPlayer> {
       showControls: false,
       aspectRatio: videoController.value.aspectRatio,
     );
-  }
-
-  Future<String> getVideoThumb() async {
-    final pathReference = await storageRef
-        .child("menu_thumb/logo.png")
-        .getDownloadURL();
-
-    return pathReference;
   }
 
   @override
@@ -100,28 +104,17 @@ class _FoodPlayerState extends State<FoodPlayer> {
           ),
         ),
       )
-          : FutureBuilder<String>(
-        future: getVideoThumb(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return const Text("Error loading thumbnail");
-          } else if (snapshot.hasData) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.network(snapshot.data!),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text("loading"),
-              ],
-            );
-          } else {
-            return const Text("No thumbnail available");
-          }
-        },
+          : ClipRect(
+        child: OverflowBox(
+          alignment: Alignment.center,
+          child: AspectRatio(
+            aspectRatio: MediaQuery.of(context).size.aspectRatio,
+            child: Image.asset(
+              'assets/menu_thumb/${widget.shop.menu_id}.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
     );
   }
