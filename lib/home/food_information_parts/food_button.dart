@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pickeat/analytic_config.dart';
 import 'package:pickeat/model/shops.dart';
 
 import '../../const/color.dart';
+import '../../const/url_button.dart';
 
 class FoodButton extends StatefulWidget {
   final Shop shop;
@@ -23,7 +24,7 @@ class _FoodButtonState extends State<FoodButton> {
       builder: (BuildContext context) {
         return Container(
           height: 250,
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(23),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -31,7 +32,7 @@ class _FoodButtonState extends State<FoodButton> {
                 '배달 주문하기',
                 style: TextStyle(
                   fontSize: 23,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               SizedBox(height: 20),
@@ -46,26 +47,35 @@ class _FoodButtonState extends State<FoodButton> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       // coupang_url
-                      if (widget.shop.coupang_url != null && widget.shop.coupang_url!.isNotEmpty)
+                      if (widget.shop.coupang_url != null &&
+                          widget.shop.coupang_url!.isNotEmpty)
                         UrlButton(
-                            type: "배달",
-                            image: "assets/image/coupang_logo.png",
-                            name: "쿠팡 이츠",
-                            url: widget.shop.coupang_url!),
+                          type: "배달",
+                          image: "assets/image/coupang_logo.png",
+                          name: "쿠팡 이츠",
+                          url: widget.shop.coupang_url!,
+                          shop: widget.shop,
+                        ),
                       // yogiyo_url
-                      if (widget.shop.yogiyo_url != null && widget.shop.yogiyo_url!.isNotEmpty)
+                      if (widget.shop.yogiyo_url != null &&
+                          widget.shop.yogiyo_url!.isNotEmpty)
                         UrlButton(
-                            type: "배달",
-                            image: "assets/image/yogiyo_logo.png",
-                            name: "요기요",
-                            url: widget.shop.yogiyo_url!),
+                          type: "배달",
+                          image: "assets/image/yogiyo_logo.png",
+                          name: "요기요",
+                          url: widget.shop.yogiyo_url!,
+                          shop: widget.shop,
+                        ),
                       // baemin_url
-                      if (widget.shop.baemin_url != null && widget.shop.baemin_url!.isNotEmpty)
+                      if (widget.shop.baemin_url != null &&
+                          widget.shop.baemin_url!.isNotEmpty)
                         UrlButton(
-                            type: "배달",
-                            image: "assets/image/baemin_logo.png",
-                            name: "배달의 민족",
-                            url: widget.shop.baemin_url!),
+                          type: "배달",
+                          image: "assets/image/baemin_logo.png",
+                          name: "배달의 민족",
+                          url: widget.shop.baemin_url!,
+                          shop: widget.shop,
+                        ),
                     ],
                   ),
                 ),
@@ -91,7 +101,7 @@ class _FoodButtonState extends State<FoodButton> {
               Text(
                 '지도 보러가기',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 23,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -107,28 +117,36 @@ class _FoodButtonState extends State<FoodButton> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       // naver_url
-                      if (widget.shop.naver_url != null && widget.shop.naver_url!.isNotEmpty)
+                      if (widget.shop.naver_url != null &&
+                          widget.shop.naver_url!.isNotEmpty)
                         UrlButton(
-                            type: "지도",
-                            image: "assets/image/Naver_logo.png",
-                            name: "네이버지도",
-                            url: widget.shop.naver_url!),
+                          type: "지도",
+                          image: "assets/image/Naver_logo.png",
+                          name: "네이버지도",
+                          url: widget.shop.naver_url!,
+                          shop: widget.shop,
+                        ),
                       // kakaoMap_url
-                      if (widget.shop.kakaoMap_url != null && widget.shop.kakaoMap_url!.isNotEmpty)
+                      if (widget.shop.kakaoMap_url != null &&
+                          widget.shop.kakaoMap_url!.isNotEmpty)
                         UrlButton(
-                            type: "지도",
-                            image: "assets/image/Kakao_logo.png",
-                            name: "카카오지도",
-                            url: widget.shop.kakaoMap_url!),
+                          type: "지도",
+                          image: "assets/image/Kakao_logo.png",
+                          name: "카카오지도",
+                          url: widget.shop.kakaoMap_url!,
+                          shop: widget.shop,
+                        ),
                       // AppleMap_url
                       if (widget.shop.appleMap_url != null &&
                           widget.shop.appleMap_url!.isNotEmpty &&
                           Platform.isIOS)
                         UrlButton(
-                            type: "지도",
-                            image: "assets/image/AppleMap_logo.png",
-                            name: "애플지도",
-                            url: widget.shop.appleMap_url!),
+                          type: "지도",
+                          image: "assets/image/AppleMap_logo.png",
+                          name: "애플지도",
+                          url: widget.shop.appleMap_url!,
+                          shop: widget.shop,
+                        ),
                     ],
                   ),
                 ),
@@ -149,14 +167,25 @@ class _FoodButtonState extends State<FoodButton> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+                  borderRadius: BorderRadius.circular(10),
+              ),
+              minimumSize: Size(double.infinity, 50),
             ),
-            onPressed: () => _showPickupBottomSheet(context),
+            onPressed: () {
+              Analytics_config().click_map(
+                  map_app: "click 지도 보러가기",
+                  menu_name: widget.shop.menu_name,
+                  menu_price: widget.shop.menu_price,
+                  store_rating_naver: widget.shop.store_rating_naver,
+                  store_rating_kakao: widget.shop.store_rating_kakao,
+                  store_name: widget.shop.store_name);
+              _showPickupBottomSheet(context);
+            },
             child: Text(
               "지도 보러가기",
               style: TextStyle(
                 color: picketColor,
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -169,61 +198,29 @@ class _FoodButtonState extends State<FoodButton> {
               backgroundColor: picketColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
+              minimumSize: Size(double.infinity, 50),
             ),
-            onPressed: () => _showDeliveryBottomSheet(context),
+            onPressed: () {
+              Analytics_config().click_delivery(
+                  delivery_app: "click 배달 주문하기",
+                  menu_name: widget.shop.menu_name,
+                  menu_price: widget.shop.menu_price,
+                  store_rating_naver: widget.shop.store_rating_naver,
+                  store_rating_kakao: widget.shop.store_rating_kakao,
+                  store_name: widget.shop.store_name);
+              _showDeliveryBottomSheet(context);
+            },
             child: Text(
               "배달 주문하기",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
             ),
           ),
         ),
       ],
-    );
-  }
-}
-
-class UrlButton extends StatelessWidget {
-  final String type;
-  final String image;
-  final String name;
-  final String url;
-
-  UrlButton({
-    required this.type,
-    required this.image,
-    required this.name,
-    required this.url,
-  });
-
-  Future<void> _launchURL() async {
-    if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: false, forceWebView: false);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _launchURL,
-      child: Column(
-        children: [
-          Image.asset(image, width: 50, height: 50),
-          SizedBox(height: 10),
-          Text(
-            name,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

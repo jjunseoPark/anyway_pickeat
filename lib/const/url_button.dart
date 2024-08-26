@@ -35,8 +35,6 @@ class _UrlButtonState extends State<UrlButton> {
             fit: BoxFit.fill,
           ),
           onPressed: () {
-            launchURL(widget.url);
-
             if (widget.type == "배달") {
               Analytics_config().click_delivery(
                 delivery_app: widget.name,
@@ -56,6 +54,8 @@ class _UrlButtonState extends State<UrlButton> {
                 store_name: widget.shop.store_name,
               );
             }
+
+            launchURL(widget.url);
           },
         ),
         Text(
