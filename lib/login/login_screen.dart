@@ -1,3 +1,4 @@
+import 'package:app_version_update/app_version_update.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -27,7 +28,57 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    _verifyVersion();
     super.initState();
+  }
+
+  void _verifyVersion() async {
+    await AppVersionUpdate.checkForUpdates(
+      appleId: '6590604851',
+      playStoreId: 'com.anyway.pickeat',
+    ).then((result) async {
+      if (result.canUpdate!) {
+        print('!!!!!!!!!!!!!!');
+        // await AppVersionUpdate.showBottomSheetUpdate(context: context, appVersionResult: appVersionResult)
+        // await AppVersionUpdate.showPageUpdate(context: context, appVersionResult: appVersionResult)
+        // or use your own widget with information received from AppVersionResult
+
+        //##############################################################################################
+        await AppVersionUpdate.showAlertUpdate(
+          appVersionResult: result,
+          context: context,
+          mandatory: true,
+          backgroundColor: Colors.grey[200],
+          title: 'NEW 버전 업데이트!',
+          titleTextStyle: const TextStyle(
+              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 24.0),
+          content: '업데이트 후 앱을 사용해 주세요.',
+          contentTextStyle: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+          ),
+          updateButtonText: '업데이트',
+          cancelButtonText: 'LATER',
+          updateButtonStyle: const ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(245, 47, 70, 1.0))),
+        );
+
+        //## AppVersionUpdate.showBottomSheetUpdate ##
+        // await AppVersionUpdate.showBottomSheetUpdate(
+        //   context: context,
+        //   mandatory: true,
+        //   appVersionResult: result,
+        // );
+
+        //## AppVersionUpdate.showPageUpdate ##
+
+        // await AppVersionUpdate.showPageUpdate(
+        //   context: context,
+        //   appVersionResult: result,
+        // );
+      }
+    });
+    // TODO: implement initState
   }
 
   Future<UserCredential?> signIn(String email, String password) async {

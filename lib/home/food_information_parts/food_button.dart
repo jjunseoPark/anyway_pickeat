@@ -46,7 +46,6 @@ class _FoodButtonState extends State<FoodButton> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // coupang_url
                       if (widget.shop.coupang_url != null &&
                           widget.shop.coupang_url!.isNotEmpty)
                         UrlButton(
@@ -56,7 +55,6 @@ class _FoodButtonState extends State<FoodButton> {
                           url: widget.shop.coupang_url!,
                           shop: widget.shop,
                         ),
-                      // yogiyo_url
                       if (widget.shop.yogiyo_url != null &&
                           widget.shop.yogiyo_url!.isNotEmpty)
                         UrlButton(
@@ -66,7 +64,6 @@ class _FoodButtonState extends State<FoodButton> {
                           url: widget.shop.yogiyo_url!,
                           shop: widget.shop,
                         ),
-                      // baemin_url
                       if (widget.shop.baemin_url != null &&
                           widget.shop.baemin_url!.isNotEmpty)
                         UrlButton(
@@ -116,7 +113,6 @@ class _FoodButtonState extends State<FoodButton> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // naver_url
                       if (widget.shop.naver_url != null &&
                           widget.shop.naver_url!.isNotEmpty)
                         UrlButton(
@@ -126,7 +122,6 @@ class _FoodButtonState extends State<FoodButton> {
                           url: widget.shop.naver_url!,
                           shop: widget.shop,
                         ),
-                      // kakaoMap_url
                       if (widget.shop.kakaoMap_url != null &&
                           widget.shop.kakaoMap_url!.isNotEmpty)
                         UrlButton(
@@ -136,7 +131,6 @@ class _FoodButtonState extends State<FoodButton> {
                           url: widget.shop.kakaoMap_url!,
                           shop: widget.shop,
                         ),
-                      // AppleMap_url
                       if (widget.shop.appleMap_url != null &&
                           widget.shop.appleMap_url!.isNotEmpty &&
                           Platform.isIOS)
@@ -167,7 +161,7 @@ class _FoodButtonState extends State<FoodButton> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10),
               ),
               minimumSize: Size(double.infinity, 50),
             ),
@@ -181,23 +175,27 @@ class _FoodButtonState extends State<FoodButton> {
                   store_name: widget.shop.store_name);
               _showPickupBottomSheet(context);
             },
-            child: Text(
-              "지도 보러가기",
-              style: TextStyle(
-                color: picketColor,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                "지도 보러가기",
+                style: TextStyle(
+                  color: picketColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
         ),
-        SizedBox(width: 15), // 버튼 사이 간격
+        SizedBox(width: 15),
         Expanded(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: picketColor,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
+              ),
               minimumSize: Size(double.infinity, 50),
             ),
             onPressed: () {
@@ -210,12 +208,15 @@ class _FoodButtonState extends State<FoodButton> {
                   store_name: widget.shop.store_name);
               _showDeliveryBottomSheet(context);
             },
-            child: Text(
-              "배달 주문하기",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                "배달 주문하기",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
